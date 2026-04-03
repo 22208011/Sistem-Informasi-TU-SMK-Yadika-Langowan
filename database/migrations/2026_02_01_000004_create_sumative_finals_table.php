@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('type', ['PAS', 'PAT', 'UAS', 'UKK']); // Penilaian Akhir Semester, Penilaian Akhir Tahun, dll
             $table->decimal('score', 5, 2)->nullable();
             $table->text('notes')->nullable();
-            
+
             // Workflow approval
             $table->enum('status', ['draft', 'submitted', 'approved', 'rejected'])->default('draft');
             $table->foreignId('submitted_by')->nullable()->constrained('users')->nullOnDelete();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('approved_at')->nullable();
             $table->text('approval_notes')->nullable();
-            
+
             $table->timestamps();
 
             $table->unique(['student_id', 'subject_id', 'academic_year_id', 'semester', 'type'], 'sumative_unique');

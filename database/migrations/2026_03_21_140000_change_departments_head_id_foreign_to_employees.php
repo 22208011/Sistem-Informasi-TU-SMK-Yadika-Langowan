@@ -13,7 +13,16 @@ return new class extends Migration
     public function up(): void
     {
         // Map existing user-based head_id values to employees.id where possible.
-        DB::statement('UPDATE departments d LEFT JOIN employees e ON e.user_id = d.head_id SET d.head_id = e.id');
+        DB::table('departments')
+            ->whereNotNull('head_id')
+            ->update([
+                'head_id' => DB::raw('(SELECT id FROM employees WHERE employees.user_id = departments.head_id)'),
+            ]);
+
+        // SQLite does not support dropping / re-adding foreign keys via ALTER TABLE.
+        if (DB::getDriverName() === 'sqlite') {
+            return;
+        }
 
         Schema::table('departments', function (Blueprint $table) {
             $table->dropForeign(['head_id']);
@@ -30,7 +39,16 @@ return new class extends Migration
     public function down(): void
     {
         // Restore employees-based head_id values back to users.id where available.
-        DB::statement('UPDATE departments d LEFT JOIN employees e ON e.id = d.head_id SET d.head_id = e.user_id');
+        DB::table('departments')
+            ->whereNotNull('head_id')
+            ->update([
+                'head_id' => DB::raw('(SELECT user_id FROM employees WHERE employees.id = departments.head_id)'),
+            ]);
+
+        // SQLite does not support dropping / re-adding foreign keys via ALTER TABLE.
+        if (DB::getDriverName() === 'sqlite') {
+            return;
+        }
 
         Schema::table('departments', function (Blueprint $table) {
             $table->dropForeign(['head_id']);

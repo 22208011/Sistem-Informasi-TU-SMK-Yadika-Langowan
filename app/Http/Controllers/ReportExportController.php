@@ -9,9 +9,9 @@ use App\Models\EmployeeAttendance;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\StudentAttendance;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportExportController extends Controller
 {
@@ -22,19 +22,21 @@ class ReportExportController extends Controller
     {
         if ($format === 'pdf') {
             $pdf = Pdf::loadHtml($view->render())->setPaper('a4', 'portrait');
-            return $pdf->download($baseFilename . '.pdf');
+
+            return $pdf->download($baseFilename.'.pdf');
         } elseif ($format === 'word') {
             return Response::make($view->render(), 200, [
                 'Content-Type' => 'application/msword',
-                'Content-Disposition' => 'attachment; filename="' . $baseFilename . '.doc"',
+                'Content-Disposition' => 'attachment; filename="'.$baseFilename.'.doc"',
             ]);
         } elseif ($format === 'excel') {
             return Response::make($view->render(), 200, [
                 'Content-Type' => 'application/vnd.ms-excel',
-                'Content-Disposition' => 'attachment; filename="' . $baseFilename . '.xls"',
+                'Content-Disposition' => 'attachment; filename="'.$baseFilename.'.xls"',
             ]);
         }
     }
+
     /**
      * Export Academic Report to CSV
      */
@@ -46,21 +48,21 @@ class ReportExportController extends Controller
 
         $query = Grade::query()
             ->with(['student', 'subject', 'teacher'])
-            ->when($academicYear, fn($q) => $q->where('academic_year_id', $academicYear->id))
-            ->when($request->classroom_id, function($q) use ($request) {
-                $q->whereHas('student', fn($sq) => $sq->where('classroom_id', $request->classroom_id));
+            ->when($academicYear, fn ($q) => $q->where('academic_year_id', $academicYear->id))
+            ->when($request->classroom_id, function ($q) use ($request) {
+                $q->whereHas('student', fn ($sq) => $sq->where('classroom_id', $request->classroom_id));
             })
-            ->when($request->subject_id, fn($q) => $q->where('subject_id', $request->subject_id))
-            ->when($request->semester, fn($q) => $q->where('semester', $request->semester));
+            ->when($request->subject_id, fn ($q) => $q->where('subject_id', $request->subject_id))
+            ->when($request->semester, fn ($q) => $q->where('semester', $request->semester));
 
         $grades = $query->orderBy('created_at', 'desc')->get();
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="laporan_akademik_' . now()->format('Y-m-d') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="laporan_akademik_'.now()->format('Y-m-d').'.csv"',
         ];
 
-        $callback = function() use ($grades, $academicYear) {
+        $callback = function () use ($grades, $academicYear) {
             $file = fopen('php://output', 'w');
 
             // BOM for UTF-8
@@ -68,8 +70,8 @@ class ReportExportController extends Controller
 
             // Header info
             fputcsv($file, ['LAPORAN AKADEMIK']);
-            fputcsv($file, ['Tahun Ajaran: ' . ($academicYear?->name ?? '-')]);
-            fputcsv($file, ['Tanggal Export: ' . now()->format('d/m/Y H:i')]);
+            fputcsv($file, ['Tahun Ajaran: '.($academicYear?->name ?? '-')]);
+            fputcsv($file, ['Tanggal Export: '.now()->format('d/m/Y H:i')]);
             fputcsv($file, []);
 
             // Column headers
@@ -114,31 +116,31 @@ class ReportExportController extends Controller
 
         $query = Student::query()
             ->with(['classroom', 'department', 'guardian'])
-            ->when($request->status, fn($q) => $q->where('status', $request->status))
-            ->when($request->classroom_id, fn($q) => $q->where('classroom_id', $request->classroom_id))
-            ->when($request->department_id, fn($q) => $q->where('department_id', $request->department_id))
-            ->when($request->gender, fn($q) => $q->where('gender', $request->gender));
+            ->when($request->status, fn ($q) => $q->where('status', $request->status))
+            ->when($request->classroom_id, fn ($q) => $q->where('classroom_id', $request->classroom_id))
+            ->when($request->department_id, fn ($q) => $q->where('department_id', $request->department_id))
+            ->when($request->gender, fn ($q) => $q->where('gender', $request->gender));
 
         $students = $query->orderBy('name')->get();
 
         $format = $request->get('format', 'csv');
-        $fileName = 'laporan_siswa_' . now()->format('Y-m-d');
+        $fileName = 'laporan_siswa_'.now()->format('Y-m-d');
 
         if (in_array($format, ['pdf', 'word', 'excel'])) {
             return $this->downloadFormattedView(view('exports.students', [
                 'students' => $students,
                 'title' => 'LAPORAN DATA SISWA',
-                'subtitle' => 'Tanggal Export: ' . now()->format('d/m/Y H:i'),
+                'subtitle' => 'Tanggal Export: '.now()->format('d/m/Y H:i'),
                 'signerTitle' => 'Wali Kelas',
             ]), $fileName, $format);
         }
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="laporan_siswa_' . now()->format('Y-m-d') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="laporan_siswa_'.now()->format('Y-m-d').'.csv"',
         ];
 
-        $callback = function() use ($students) {
+        $callback = function () use ($students) {
             $file = fopen('php://output', 'w');
 
             // BOM for UTF-8
@@ -146,7 +148,7 @@ class ReportExportController extends Controller
 
             // Header info
             fputcsv($file, ['LAPORAN DATA SISWA']);
-            fputcsv($file, ['Tanggal Export: ' . now()->format('d/m/Y H:i')]);
+            fputcsv($file, ['Tanggal Export: '.now()->format('d/m/Y H:i')]);
             fputcsv($file, []);
 
             // Column headers
@@ -195,30 +197,30 @@ class ReportExportController extends Controller
 
         $query = Employee::query()
             ->with('position')
-            ->when($request->has('status') && $request->status !== '', fn($q) => $q->where('is_active', $request->status))
-            ->when($request->type, fn($q) => $q->where('employee_type', $request->type))
-            ->when($request->position_id, fn($q) => $q->where('position_id', $request->position_id));
+            ->when($request->has('status') && $request->status !== '', fn ($q) => $q->where('is_active', $request->status))
+            ->when($request->type, fn ($q) => $q->where('employee_type', $request->type))
+            ->when($request->position_id, fn ($q) => $q->where('position_id', $request->position_id));
 
         $employees = $query->orderBy('name')->get();
 
         $format = $request->get('format', 'csv');
-        $fileName = 'laporan_pegawai_' . now()->format('Y-m-d');
+        $fileName = 'laporan_pegawai_'.now()->format('Y-m-d');
 
         if (in_array($format, ['pdf', 'word', 'excel'])) {
             return $this->downloadFormattedView(view('exports.employees', [
                 'employees' => $employees,
                 'title' => 'LAPORAN DATA PEGAWAI',
-                'subtitle' => 'Tanggal Export: ' . now()->format('d/m/Y H:i'),
+                'subtitle' => 'Tanggal Export: '.now()->format('d/m/Y H:i'),
                 'signerTitle' => 'Kepala Sekolah',
             ]), $fileName, $format);
         }
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="laporan_pegawai_' . now()->format('Y-m-d') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="laporan_pegawai_'.now()->format('Y-m-d').'.csv"',
         ];
 
-        $callback = function() use ($employees) {
+        $callback = function () use ($employees) {
             $file = fopen('php://output', 'w');
 
             // BOM for UTF-8
@@ -226,7 +228,7 @@ class ReportExportController extends Controller
 
             // Header info
             fputcsv($file, ['LAPORAN DATA PEGAWAI']);
-            fputcsv($file, ['Tanggal Export: ' . now()->format('d/m/Y H:i')]);
+            fputcsv($file, ['Tanggal Export: '.now()->format('d/m/Y H:i')]);
             fputcsv($file, []);
 
             // Column headers
@@ -293,31 +295,31 @@ class ReportExportController extends Controller
         $query = StudentAttendance::query()
             ->with(['student', 'classroom'])
             ->whereBetween('date', [$startDate, $endDate])
-            ->when($request->classroom_id, function($q) use ($request) {
-                $q->whereHas('student', fn($sq) => $sq->where('classroom_id', $request->classroom_id));
+            ->when($request->classroom_id, function ($q) use ($request) {
+                $q->whereHas('student', fn ($sq) => $sq->where('classroom_id', $request->classroom_id));
             });
 
         $attendances = $query->orderBy('date')->orderBy('student_id')->get();
 
         $format = $request->get('format', 'csv');
-        $fileName = 'laporan_kehadiran_siswa_' . $startDate->format('Y-m');
+        $fileName = 'laporan_kehadiran_siswa_'.$startDate->format('Y-m');
 
         if (in_array($format, ['pdf', 'word', 'excel'])) {
             return $this->downloadFormattedView(view('exports.attendance', [
                 'attendances' => $attendances,
                 'type' => 'student',
                 'title' => 'LAPORAN KEHADIRAN SISWA',
-                'subtitle' => 'Periode: ' . $startDate->translatedFormat('F Y'),
+                'subtitle' => 'Periode: '.$startDate->translatedFormat('F Y'),
                 'signerTitle' => 'Wali Kelas',
             ]), $fileName, $format);
         }
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '.csv"',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'.csv"',
         ];
 
-        $callback = function() use ($attendances, $startDate, $endDate) {
+        $callback = function () use ($attendances, $startDate) {
             $file = fopen('php://output', 'w');
 
             // BOM for UTF-8
@@ -325,8 +327,8 @@ class ReportExportController extends Controller
 
             // Header info
             fputcsv($file, ['LAPORAN KEHADIRAN SISWA']);
-            fputcsv($file, ['Periode: ' . $startDate->translatedFormat('F Y')]);
-            fputcsv($file, ['Tanggal Export: ' . now()->format('d/m/Y H:i')]);
+            fputcsv($file, ['Periode: '.$startDate->translatedFormat('F Y')]);
+            fputcsv($file, ['Tanggal Export: '.now()->format('d/m/Y H:i')]);
             fputcsv($file, []);
 
             // Column headers
@@ -370,24 +372,24 @@ class ReportExportController extends Controller
         $attendances = $query->orderBy('date')->orderBy('employee_id')->get();
 
         $format = $request->get('format', 'csv');
-        $fileName = 'laporan_kehadiran_pegawai_' . $startDate->format('Y-m');
+        $fileName = 'laporan_kehadiran_pegawai_'.$startDate->format('Y-m');
 
         if (in_array($format, ['pdf', 'word', 'excel'])) {
             return $this->downloadFormattedView(view('exports.attendance', [
                 'attendances' => $attendances,
                 'type' => 'employee',
                 'title' => 'LAPORAN KEHADIRAN PEGAWAI',
-                'subtitle' => 'Periode: ' . $startDate->translatedFormat('F Y'),
+                'subtitle' => 'Periode: '.$startDate->translatedFormat('F Y'),
                 'signerTitle' => 'Kepala Sekolah',
             ]), $fileName, $format);
         }
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '.csv"',
+            'Content-Disposition' => 'attachment; filename="'.$fileName.'.csv"',
         ];
 
-        $callback = function() use ($attendances, $startDate, $endDate) {
+        $callback = function () use ($attendances, $startDate) {
             $file = fopen('php://output', 'w');
 
             // BOM for UTF-8
@@ -395,8 +397,8 @@ class ReportExportController extends Controller
 
             // Header info
             fputcsv($file, ['LAPORAN KEHADIRAN PEGAWAI']);
-            fputcsv($file, ['Periode: ' . $startDate->translatedFormat('F Y')]);
-            fputcsv($file, ['Tanggal Export: ' . now()->format('d/m/Y H:i')]);
+            fputcsv($file, ['Periode: '.$startDate->translatedFormat('F Y')]);
+            fputcsv($file, ['Tanggal Export: '.now()->format('d/m/Y H:i')]);
             fputcsv($file, []);
 
             // Column headers
@@ -444,10 +446,10 @@ class ReportExportController extends Controller
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="laporan_ringkasan_' . now()->format('Y-m-d') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="laporan_ringkasan_'.now()->format('Y-m-d').'.csv"',
         ];
 
-        $callback = function() use ($academicYear) {
+        $callback = function () use ($academicYear) {
             $file = fopen('php://output', 'w');
 
             // BOM for UTF-8
@@ -455,8 +457,8 @@ class ReportExportController extends Controller
 
             // Header info
             fputcsv($file, ['LAPORAN RINGKASAN SEKOLAH']);
-            fputcsv($file, ['Tahun Ajaran: ' . ($academicYear?->name ?? '-')]);
-            fputcsv($file, ['Tanggal Export: ' . now()->format('d/m/Y H:i')]);
+            fputcsv($file, ['Tahun Ajaran: '.($academicYear?->name ?? '-')]);
+            fputcsv($file, ['Tanggal Export: '.now()->format('d/m/Y H:i')]);
             fputcsv($file, []);
 
             // Student Stats
@@ -501,7 +503,7 @@ class ReportExportController extends Controller
     private function authorize($permission)
     {
         $user = auth()->user();
-        if (!$user->hasPermission($permission) && !$user->isAdmin()) {
+        if (! $user->hasPermission($permission) && ! $user->isAdmin()) {
             abort(403, 'Unauthorized');
         }
     }

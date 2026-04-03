@@ -29,8 +29,11 @@ class Role extends Model
      * Role constants for 4 main user types
      */
     public const ADMIN = 'admin';
+
     public const KEPALA_SEKOLAH = 'kepala_sekolah';
+
     public const GURU = 'guru';
+
     public const ORANG_TUA = 'orang_tua';
 
     /**

@@ -17,7 +17,7 @@ class OptimizeResponse
         $response = $next($request);
 
         // Skip for non-successful responses or file downloads
-        if (!$response->isSuccessful() || $response->headers->has('Content-Disposition')) {
+        if (! $response->isSuccessful() || $response->headers->has('Content-Disposition')) {
             return $response;
         }
 
@@ -31,10 +31,10 @@ class OptimizeResponse
             $content = $response->getContent();
             if ($content) {
                 $etag = md5($content);
-                $response->headers->set('ETag', '"' . $etag . '"');
+                $response->headers->set('ETag', '"'.$etag.'"');
 
                 // Check if client has cached version
-                if ($request->header('If-None-Match') === '"' . $etag . '"') {
+                if ($request->header('If-None-Match') === '"'.$etag.'"') {
                     $response->setStatusCode(304);
                     $response->setContent('');
                 }
@@ -51,9 +51,9 @@ class OptimizeResponse
     {
         $path = $request->path();
         $staticExtensions = ['css', 'js', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico', 'woff', 'woff2', 'ttf', 'eot'];
-        
+
         foreach ($staticExtensions as $ext) {
-            if (str_ends_with($path, '.' . $ext)) {
+            if (str_ends_with($path, '.'.$ext)) {
                 return true;
             }
         }

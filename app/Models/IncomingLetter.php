@@ -42,10 +42,15 @@ class IncomingLetter extends Model
      * Classification Constants
      */
     public const CLASS_DINAS_PENDIDIKAN = 'dinas_pendidikan';
+
     public const CLASS_YAYASAN = 'yayasan';
+
     public const CLASS_INSTANSI_LAIN = 'instansi_lain';
+
     public const CLASS_ORANG_TUA = 'orang_tua';
+
     public const CLASS_PERUSAHAAN = 'perusahaan';
+
     public const CLASS_LAINNYA = 'lainnya';
 
     public const CLASSIFICATIONS = [
@@ -61,8 +66,11 @@ class IncomingLetter extends Model
      * Nature Constants (Sifat Surat)
      */
     public const NATURE_BIASA = 'biasa';
+
     public const NATURE_PENTING = 'penting';
+
     public const NATURE_RAHASIA = 'rahasia';
+
     public const NATURE_SANGAT_RAHASIA = 'sangat_rahasia';
 
     public const NATURES = [
@@ -83,9 +91,13 @@ class IncomingLetter extends Model
      * Status Constants
      */
     public const STATUS_RECEIVED = 'received';
+
     public const STATUS_PROCESSING = 'processing';
+
     public const STATUS_DISPOSITIONED = 'dispositioned';
+
     public const STATUS_COMPLETED = 'completed';
+
     public const STATUS_ARCHIVED = 'archived';
 
     public const STATUSES = [
@@ -152,8 +164,8 @@ class IncomingLetter extends Model
         $year = now()->year;
         $month = str_pad(now()->month, 2, '0', STR_PAD_LEFT);
         $count = static::whereYear('created_at', $year)
-                       ->whereMonth('created_at', now()->month)
-                       ->count() + 1;
+            ->whereMonth('created_at', now()->month)
+            ->count() + 1;
 
         return sprintf('SM/%s/%s/%04d', $month, $year, $count);
     }

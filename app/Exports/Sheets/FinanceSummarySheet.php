@@ -3,13 +3,13 @@
 namespace App\Exports\Sheets;
 
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class FinanceSummarySheet implements FromArray, WithTitle, WithHeadings, WithStyles, WithColumnWidths
+class FinanceSummarySheet implements FromArray, WithColumnWidths, WithHeadings, WithStyles, WithTitle
 {
     private $data;
 
@@ -21,18 +21,18 @@ class FinanceSummarySheet implements FromArray, WithTitle, WithHeadings, WithSty
     public function array(): array
     {
         $rows = [];
-        
+
         $rows[] = ['Total Tagihan', $this->data['total_amount']];
         $rows[] = ['Total Terbayar', $this->data['total_paid']];
         $rows[] = ['Sisa Belum Bayar', $this->data['total_unpaid']];
-        $rows[] = ['Persentase Lunas', $this->data['percentage_paid'] . '%'];
+        $rows[] = ['Persentase Lunas', $this->data['percentage_paid'].'%'];
         $rows[] = ['', ''];
-        
+
         $rows[] = ['DISTRIBUSI STATUS', 'JUMLAH'];
         $rows[] = ['Lunas', $this->data['by_status']['lunas']];
         $rows[] = ['Bayar Sebagian', $this->data['by_status']['sebagian']];
         $rows[] = ['Belum Bayar', $this->data['by_status']['belum_bayar']];
-        
+
         return $rows;
     }
 
@@ -40,7 +40,7 @@ class FinanceSummarySheet implements FromArray, WithTitle, WithHeadings, WithSty
     {
         return [
             ['RINGKASAN LAPORAN KEUANGAN'],
-            ['METRIK', 'NILAI']
+            ['METRIK', 'NILAI'],
         ];
     }
 
@@ -58,7 +58,7 @@ class FinanceSummarySheet implements FromArray, WithTitle, WithHeadings, WithSty
             'A' => ['font' => ['bold' => true]],
         ];
     }
-    
+
     public function columnWidths(): array
     {
         return [

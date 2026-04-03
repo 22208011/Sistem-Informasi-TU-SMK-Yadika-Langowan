@@ -70,7 +70,7 @@ class CallingLetter extends Model
         $month = str_pad(now()->month, 2, '0', STR_PAD_LEFT);
         $count = self::whereYear('created_at', $year)->count() + 1;
         $number = str_pad($count, 3, '0', STR_PAD_LEFT);
-        
+
         return "{$number}/{$type}/SMK-YL/{$month}/{$year}";
     }
 

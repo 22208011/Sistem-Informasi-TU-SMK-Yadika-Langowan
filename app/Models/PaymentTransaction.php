@@ -58,7 +58,7 @@ class PaymentTransaction extends Model
 
     public function getFormattedAmountAttribute(): string
     {
-        return 'Rp ' . number_format($this->amount, 0, ',', '.');
+        return 'Rp '.number_format($this->amount, 0, ',', '.');
     }
 
     public static function generateReceiptNumber(): string
@@ -66,6 +66,7 @@ class PaymentTransaction extends Model
         $prefix = 'RCP';
         $date = now()->format('Ymd');
         $last = static::whereDate('created_at', today())->count() + 1;
-        return $prefix . $date . str_pad($last, 4, '0', STR_PAD_LEFT);
+
+        return $prefix.$date.str_pad($last, 4, '0', STR_PAD_LEFT);
     }
 }

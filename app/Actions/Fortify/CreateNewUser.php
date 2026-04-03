@@ -6,8 +6,8 @@ use App\Concerns\PasswordValidationRules;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\User;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers

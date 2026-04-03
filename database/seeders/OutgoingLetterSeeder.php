@@ -18,7 +18,7 @@ class OutgoingLetterSeeder extends Seeder
         $adminUser = User::where('email', 'admin@smk.sch.id')->first();
         $taUser = User::where('email', 'tata.usaha@smk.sch.id')->first();
         $kepsekUser = User::where('email', 'kepala.sekolah@smk.sch.id')->first();
-        
+
         $creator = $adminUser ?? $taUser ?? User::first();
         $signer = $kepsekUser ?? $adminUser ?? User::first();
 
@@ -75,13 +75,13 @@ class OutgoingLetterSeeder extends Seeder
                 'notes' => 'Menunggu tanda tangan Kepala Sekolah',
                 'created_by' => $creator?->id,
                 'signed_by' => null,
-                'status' => OutgoingLetter::STATUS_PENDING,
+                'status' => OutgoingLetter::STATUS_DRAFT,
             ],
             [
                 'agenda_number' => 'SK/03/2026/0004',
                 'letter_number' => '004/SMK-YL/III/2026',
                 'letter_date' => '2026-03-05',
-                'sent_date' => null,
+                'sent_date' => '2026-03-06',
                 'recipient' => 'Seluruh Orang Tua/Wali Siswa Kelas XII',
                 'recipient_address' => '-',
                 'subject' => 'Undangan Rapat Persiapan Ujian Sekolah',
@@ -93,7 +93,7 @@ class OutgoingLetterSeeder extends Seeder
                 'notes' => 'Dikirim melalui siswa',
                 'created_by' => $creator?->id,
                 'signed_by' => $signer?->id,
-                'status' => OutgoingLetter::STATUS_APPROVED,
+                'status' => OutgoingLetter::STATUS_SENT,
             ],
             [
                 'agenda_number' => 'SK/03/2026/0005',
@@ -172,7 +172,10 @@ class OutgoingLetterSeeder extends Seeder
         DB::beginTransaction();
         try {
             foreach ($outgoingLetters as $letter) {
-                OutgoingLetter::create($letter);
+                OutgoingLetter::query()->updateOrCreate(
+                    ['agenda_number' => $letter['agenda_number']],
+                    $letter
+                );
             }
             DB::commit();
         } catch (\Exception $e) {

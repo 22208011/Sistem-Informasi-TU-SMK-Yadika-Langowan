@@ -13,7 +13,6 @@ class CheckPermission
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  ...$permissions
      */
     public function handle(Request $request, Closure $next, string ...$permissions): Response
     {
@@ -23,6 +22,7 @@ class CheckPermission
 
         if (! $request->user()->is_active) {
             Auth::logout();
+
             return redirect()->route('login')->with('error', 'Akun Anda tidak aktif.');
         }
 

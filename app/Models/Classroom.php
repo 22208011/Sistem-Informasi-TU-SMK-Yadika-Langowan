@@ -34,7 +34,9 @@ class Classroom extends Model
      * Grade constants
      */
     public const GRADE_X = 'X';
+
     public const GRADE_XI = 'XI';
+
     public const GRADE_XII = 'XII';
 
     public const GRADES = [
@@ -92,6 +94,7 @@ class Classroom extends Model
         if ($activeYear) {
             return $query->where('academic_year_id', $activeYear->id);
         }
+
         return $query;
     }
 

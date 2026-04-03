@@ -119,6 +119,6 @@ class InventoryItem extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return $this->purchase_price ? 'Rp ' . number_format($this->purchase_price, 0, ',', '.') : '-';
+        return $this->purchase_price ? 'Rp '.number_format($this->purchase_price, 0, ',', '.') : '-';
     }
 }

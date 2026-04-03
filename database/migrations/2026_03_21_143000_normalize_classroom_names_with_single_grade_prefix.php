@@ -20,7 +20,7 @@ return new class extends Migration
             $baseName = preg_replace('/^(?:(?:XII|XI|X)\s+)+/i', '', $name);
             $baseName = trim((string) $baseName);
 
-            $target = trim($classroom->grade . ' ' . $baseName);
+            $target = trim($classroom->grade.' '.$baseName);
             if ($baseName === '') {
                 $target = (string) $classroom->grade;
             }
@@ -35,9 +35,9 @@ return new class extends Migration
                 ->where('name', $candidate)
                 ->where('id', '<>', $classroom->id)
                 ->exists()) {
-                $suffixText = ' ' . $suffix;
+                $suffixText = ' '.$suffix;
                 $baseLimit = 20 - strlen($suffixText);
-                $candidate = mb_substr($target, 0, max(1, $baseLimit)) . $suffixText;
+                $candidate = mb_substr($target, 0, max(1, $baseLimit)).$suffixText;
                 $suffix++;
             }
 

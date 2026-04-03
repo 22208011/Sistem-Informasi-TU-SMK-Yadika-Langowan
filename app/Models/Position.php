@@ -29,6 +29,7 @@ class Position extends Model
      * Category constants
      */
     public const CATEGORY_STRUKTURAL = 'struktural';
+
     public const CATEGORY_FUNGSIONAL = 'fungsional';
 
     public const CATEGORIES = [

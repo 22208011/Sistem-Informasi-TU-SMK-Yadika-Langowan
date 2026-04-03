@@ -31,7 +31,7 @@ return new class extends Migration
         });
 
         // Add student_id to users table for student login
-        if (!Schema::hasColumn('users', 'student_id')) {
+        if (! Schema::hasColumn('users', 'student_id')) {
             Schema::table('users', function (Blueprint $table) {
                 $table->foreignId('student_id')->nullable()->after('employee_id')->constrained()->nullOnDelete();
             });

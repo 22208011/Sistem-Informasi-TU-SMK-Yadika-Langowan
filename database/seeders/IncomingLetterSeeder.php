@@ -169,7 +169,10 @@ class IncomingLetterSeeder extends Seeder
         DB::beginTransaction();
         try {
             foreach ($incomingLetters as $letter) {
-                IncomingLetter::create($letter);
+                IncomingLetter::query()->updateOrCreate(
+                    ['agenda_number' => $letter['agenda_number']],
+                    $letter
+                );
             }
             DB::commit();
         } catch (\Exception $e) {

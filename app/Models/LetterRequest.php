@@ -39,8 +39,11 @@ class LetterRequest extends Model
      * Letter Types that students can request
      */
     public const TYPE_ACTIVE_STUDENT = 'active_student';
+
     public const TYPE_INTERNSHIP = 'internship';
+
     public const TYPE_GOOD_BEHAVIOR = 'good_behavior';
+
     public const TYPE_TRANSFER = 'transfer';
 
     public const TYPES = [
@@ -113,8 +116,11 @@ class LetterRequest extends Model
      * Status Constants
      */
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_PROCESSING = 'processing';
+
     public const STATUS_COMPLETED = 'completed';
+
     public const STATUS_REJECTED = 'rejected';
 
     public const STATUSES = [
@@ -175,8 +181,8 @@ class LetterRequest extends Model
         $year = now()->year;
         $month = str_pad(now()->month, 2, '0', STR_PAD_LEFT);
         $count = static::whereYear('created_at', $year)
-                       ->whereMonth('created_at', now()->month)
-                       ->count() + 1;
+            ->whereMonth('created_at', now()->month)
+            ->count() + 1;
 
         return sprintf('REQ/%s/%s/%04d', $month, $year, $count);
     }
@@ -194,7 +200,7 @@ class LetterRequest extends Model
      */
     public function canBeDownloaded(): bool
     {
-        return $this->status === self::STATUS_COMPLETED && !empty($this->result_file);
+        return $this->status === self::STATUS_COMPLETED && ! empty($this->result_file);
     }
 
     /**

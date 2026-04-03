@@ -3,14 +3,14 @@
 namespace App\Exports\Sheets;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class FinanceTypeSheet implements FromCollection, WithTitle, WithHeadings, WithMapping, WithStyles, WithColumnWidths
+class FinanceTypeSheet implements FromCollection, WithColumnWidths, WithHeadings, WithMapping, WithStyles, WithTitle
 {
     private $data;
 
@@ -33,12 +33,12 @@ class FinanceTypeSheet implements FromCollection, WithTitle, WithHeadings, WithM
 
         return [
             $row->code,
-            $row->name . ($row->is_recurring ? ' (Bulanan)' : ''),
+            $row->name.($row->is_recurring ? ' (Bulanan)' : ''),
             $row->payments_count ?? 0,
             $total,
             $paid,
             $remaining,
-            $percentage . '%',
+            $percentage.'%',
         ];
     }
 
@@ -46,7 +46,7 @@ class FinanceTypeSheet implements FromCollection, WithTitle, WithHeadings, WithM
     {
         return [
             ['LAPORAN KEUANGAN PER JENIS'],
-            ['KODE', 'JENIS PEMBAYARAN', 'JML TAGIHAN', 'TOTAL TAGIHAN (Rp)', 'TOTAL TERBAYAR (Rp)', 'SISA TAGIHAN (Rp)', 'PERSENTASE TERBAYAR']
+            ['KODE', 'JENIS PEMBAYARAN', 'JML TAGIHAN', 'TOTAL TAGIHAN (Rp)', 'TOTAL TERBAYAR (Rp)', 'SISA TAGIHAN (Rp)', 'PERSENTASE TERBAYAR'],
         ];
     }
 
@@ -62,7 +62,7 @@ class FinanceTypeSheet implements FromCollection, WithTitle, WithHeadings, WithM
             2 => ['font' => ['bold' => true]],
         ];
     }
-    
+
     public function columnWidths(): array
     {
         return [

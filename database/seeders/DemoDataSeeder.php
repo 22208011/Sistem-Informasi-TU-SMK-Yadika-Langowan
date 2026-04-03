@@ -14,7 +14,6 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DemoDataSeeder extends Seeder
 {
@@ -100,7 +99,7 @@ class DemoDataSeeder extends Seeder
         foreach ($deptModels as $code => $dept) {
             foreach ($grades as $grade) {
                 $classroom = Classroom::firstOrCreate(
-                    ['name' => $grade . ' ' . $code, 'academic_year_id' => $academicYear->id],
+                    ['name' => $grade.' '.$code, 'academic_year_id' => $academicYear->id],
                     [
                         'grade' => $grade,
                         'department_id' => $dept->id,
@@ -165,7 +164,7 @@ class DemoDataSeeder extends Seeder
                 'is_active' => true,
             ]
         );
-        if ($kasekUser && !$kasekUser->employee_id) {
+        if ($kasekUser && ! $kasekUser->employee_id) {
             $kasekUser->update(['employee_id' => $kasekEmployee->id]);
         }
 
@@ -190,7 +189,7 @@ class DemoDataSeeder extends Seeder
                 'is_active' => true,
             ]
         );
-        if ($tuUser && !$tuUser->employee_id) {
+        if ($tuUser && ! $tuUser->employee_id) {
             $tuUser->update(['employee_id' => $tuEmployee->id]);
         }
 
@@ -278,12 +277,12 @@ class DemoDataSeeder extends Seeder
                 $teacher
             );
             $employeeModels[] = $emp;
-            
+
             // Link to existing users
-            if ($index === 0 && $guruUser && !$guruUser->employee_id) {
+            if ($index === 0 && $guruUser && ! $guruUser->employee_id) {
                 $guruUser->update(['employee_id' => $emp->id]);
             }
-            if ($index === 1 && $waliKelasUser && !$waliKelasUser->employee_id) {
+            if ($index === 1 && $waliKelasUser && ! $waliKelasUser->employee_id) {
                 $waliKelasUser->update(['employee_id' => $emp->id]);
             }
         }
@@ -297,42 +296,42 @@ class DemoDataSeeder extends Seeder
             ['code' => 'MTK', 'name' => 'Matematika', 'description' => 'Mata pelajaran wajib nasional', 'grade_level' => 'all'],
             ['code' => 'SJI', 'name' => 'Sejarah Indonesia', 'description' => 'Mata pelajaran wajib nasional', 'grade_level' => 'all'],
             ['code' => 'BIG', 'name' => 'Bahasa Inggris', 'description' => 'Mata pelajaran wajib nasional', 'grade_level' => 'all'],
-            
+
             // Muatan Kewilayahan
             ['code' => 'SBK', 'name' => 'Seni Budaya', 'description' => 'Mata pelajaran muatan kewilayahan', 'grade_level' => 'all'],
             ['code' => 'PJK', 'name' => 'Pendidikan Jasmani, Olahraga, dan Kesehatan', 'description' => 'Mata pelajaran muatan kewilayahan', 'grade_level' => 'all'],
-            
+
             // Muatan Peminatan Kejuruan
             ['code' => 'SIM', 'name' => 'Simulasi dan Komunikasi Digital', 'description' => 'Dasar bidang keahlian', 'grade_level' => 'X'],
             ['code' => 'FIS', 'name' => 'Fisika', 'description' => 'Dasar bidang keahlian', 'grade_level' => 'X'],
             ['code' => 'KIM', 'name' => 'Kimia', 'description' => 'Dasar bidang keahlian', 'grade_level' => 'X'],
-            
+
             // Kompetensi Keahlian ASKEP (Asisten Keperawatan)
             ['code' => 'ANT', 'name' => 'Anatomi dan Fisiologi', 'description' => 'Mata pelajaran kejuruan ASKEP', 'grade_level' => 'X', 'department_id' => $deptModels['ASKEP']->id ?? null],
             ['code' => 'KDK', 'name' => 'Konsep Dasar Keperawatan', 'description' => 'Mata pelajaran kejuruan ASKEP', 'grade_level' => 'X', 'department_id' => $deptModels['ASKEP']->id ?? null],
             ['code' => 'KDP', 'name' => 'Kebutuhan Dasar Manusia', 'description' => 'Mata pelajaran kejuruan ASKEP', 'grade_level' => 'XI', 'department_id' => $deptModels['ASKEP']->id ?? null],
             ['code' => 'KKL', 'name' => 'Keterampilan Klinis', 'description' => 'Mata pelajaran kejuruan ASKEP', 'grade_level' => 'XI', 'department_id' => $deptModels['ASKEP']->id ?? null],
             ['code' => 'IKM', 'name' => 'Ilmu Kesehatan Masyarakat', 'description' => 'Mata pelajaran kejuruan ASKEP', 'grade_level' => 'XII', 'department_id' => $deptModels['ASKEP']->id ?? null],
-            
+
             // Kompetensi Keahlian TKRO (Teknik Kendaraan Ringan Otomotif)
             ['code' => 'TDO', 'name' => 'Teknologi Dasar Otomotif', 'description' => 'Mata pelajaran kejuruan TKRO', 'grade_level' => 'X', 'department_id' => $deptModels['TKRO']->id ?? null],
             ['code' => 'PKR', 'name' => 'Pemeliharaan Kelistrikan Kendaraan Ringan', 'description' => 'Mata pelajaran kejuruan TKRO', 'grade_level' => 'XI', 'department_id' => $deptModels['TKRO']->id ?? null],
             ['code' => 'PMK', 'name' => 'Pemeliharaan Mesin Kendaraan Ringan', 'description' => 'Mata pelajaran kejuruan TKRO', 'grade_level' => 'XI', 'department_id' => $deptModels['TKRO']->id ?? null],
             ['code' => 'PSK', 'name' => 'Pemeliharaan Sasis dan Pemindah Tenaga', 'description' => 'Mata pelajaran kejuruan TKRO', 'grade_level' => 'XII', 'department_id' => $deptModels['TKRO']->id ?? null],
-            
+
             // Kompetensi Keahlian TJKT (Teknik Jaringan Komputer dan Telekomunikasi)
             ['code' => 'SKJ', 'name' => 'Sistem Komputer', 'description' => 'Mata pelajaran kejuruan TJKT', 'grade_level' => 'X', 'department_id' => $deptModels['TJKT']->id ?? null],
             ['code' => 'KJD', 'name' => 'Komputer dan Jaringan Dasar', 'description' => 'Mata pelajaran kejuruan TJKT', 'grade_level' => 'X', 'department_id' => $deptModels['TJKT']->id ?? null],
             ['code' => 'TLJ', 'name' => 'Teknologi Layanan Jaringan', 'description' => 'Mata pelajaran kejuruan TJKT', 'grade_level' => 'XI', 'department_id' => $deptModels['TJKT']->id ?? null],
             ['code' => 'AIJ', 'name' => 'Administrasi Infrastruktur Jaringan', 'description' => 'Mata pelajaran kejuruan TJKT', 'grade_level' => 'XI', 'department_id' => $deptModels['TJKT']->id ?? null],
             ['code' => 'ASJ', 'name' => 'Administrasi Sistem Jaringan', 'description' => 'Mata pelajaran kejuruan TJKT', 'grade_level' => 'XII', 'department_id' => $deptModels['TJKT']->id ?? null],
-            
+
             // Kompetensi Keahlian UPW (Usaha Perjalanan Wisata)
             ['code' => 'DPW', 'name' => 'Dasar-Dasar Pariwisata', 'description' => 'Mata pelajaran kejuruan UPW', 'grade_level' => 'X', 'department_id' => $deptModels['UPW']->id ?? null],
             ['code' => 'PWT', 'name' => 'Pengelolaan Wisata', 'description' => 'Mata pelajaran kejuruan UPW', 'grade_level' => 'XI', 'department_id' => $deptModels['UPW']->id ?? null],
             ['code' => 'TKT', 'name' => 'Ticketing dan Reservasi', 'description' => 'Mata pelajaran kejuruan UPW', 'grade_level' => 'XI', 'department_id' => $deptModels['UPW']->id ?? null],
             ['code' => 'GPW', 'name' => 'Guiding dan Pemanduan Wisata', 'description' => 'Mata pelajaran kejuruan UPW', 'grade_level' => 'XII', 'department_id' => $deptModels['UPW']->id ?? null],
-            
+
             // Produk Kreatif dan Kewirausahaan (untuk semua jurusan)
             ['code' => 'PPL', 'name' => 'Produk Kreatif dan Kewirausahaan', 'description' => 'Mata pelajaran kejuruan', 'grade_level' => 'XI'],
         ];
@@ -375,9 +374,9 @@ class DemoDataSeeder extends Seeder
                         'place_of_birth' => 'Langowan',
                         'date_of_birth' => fake()->dateTimeBetween('-18 years', '-15 years')->format('Y-m-d'),
                         'religion' => 'Kristen Protestan',
-                        'address' => 'Jl. ' . fake()->streetName . ' No. ' . fake()->numberBetween(1, 100),
-                        'phone' => '08' . fake()->numerify('##########'),
-                        'email' => strtolower(str_replace(' ', '.', $data['name'])) . '@student.smk.sch.id',
+                        'address' => 'Jl. '.fake()->streetName.' No. '.fake()->numberBetween(1, 100),
+                        'phone' => '08'.fake()->numerify('##########'),
+                        'email' => strtolower(str_replace(' ', '.', $data['name'])).'@student.smk.sch.id',
                         'classroom_id' => $classroom->id,
                         'department_id' => $classroom->department_id,
                         'academic_year_id' => $academicYear->id,
@@ -387,7 +386,7 @@ class DemoDataSeeder extends Seeder
                 );
 
                 // Create guardian for first student and link to orang tua user
-                if ($counter === 0 && $orangTuaUser && !$student->guardians()->exists()) {
+                if ($counter === 0 && $orangTuaUser && ! $student->guardians()->exists()) {
                     Guardian::firstOrCreate(
                         ['student_id' => $student->id, 'user_id' => $orangTuaUser->id],
                         [
@@ -399,12 +398,12 @@ class DemoDataSeeder extends Seeder
                             'occupation' => 'Wiraswasta',
                         ]
                     );
-                } elseif (!$student->guardians()->exists()) {
+                } elseif (! $student->guardians()->exists()) {
                     Guardian::create([
                         'student_id' => $student->id,
-                        'name' => 'Orang Tua ' . $data['name'],
+                        'name' => 'Orang Tua '.$data['name'],
                         'relationship' => $data['gender'] === 'Laki-laki' ? 'Ayah' : 'Ibu',
-                        'phone' => '08' . fake()->numerify('##########'),
+                        'phone' => '08'.fake()->numerify('##########'),
                         'address' => $student->address,
                         'occupation' => fake()->randomElement(['PNS', 'Wiraswasta', 'Petani', 'Guru', 'Karyawan Swasta']),
                     ]);
@@ -415,11 +414,11 @@ class DemoDataSeeder extends Seeder
         }
 
         $this->command->info('Demo data seeded successfully!');
-        $this->command->info('Users: ' . User::count());
-        $this->command->info('Employees: ' . Employee::count());
-        $this->command->info('Students: ' . Student::count());
-        $this->command->info('Classrooms: ' . Classroom::count());
-        $this->command->info('Departments: ' . Department::count());
-        $this->command->info('Subjects: ' . Subject::count());
+        $this->command->info('Users: '.User::count());
+        $this->command->info('Employees: '.Employee::count());
+        $this->command->info('Students: '.Student::count());
+        $this->command->info('Classrooms: '.Classroom::count());
+        $this->command->info('Departments: '.Department::count());
+        $this->command->info('Subjects: '.Subject::count());
     }
 }

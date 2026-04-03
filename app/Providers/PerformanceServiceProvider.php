@@ -27,13 +27,13 @@ class PerformanceServiceProvider extends ServiceProvider
         Model::preventSilentlyDiscardingAttributes(false);
 
         // Enable query logging in development for slow queries only
-        if (!$this->app->isProduction() && config('app.debug')) {
+        if (! $this->app->isProduction() && config('app.debug')) {
             DB::listen(function ($query) {
                 if ($query->time > 500) { // Log very slow queries (> 500ms)
                     logger()->warning('Slow Query Detected', [
                         'sql' => $query->sql,
                         'bindings' => $query->bindings,
-                        'time' => $query->time . 'ms',
+                        'time' => $query->time.'ms',
                     ]);
                 }
             });

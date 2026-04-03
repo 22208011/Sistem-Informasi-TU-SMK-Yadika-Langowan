@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ItemBorrowing extends Model
 {
@@ -75,6 +74,7 @@ class ItemBorrowing extends Model
         } elseif ($this->borrower_type === 'student' && $this->borrower_id) {
             return Student::find($this->borrower_id);
         }
+
         return null;
     }
 
@@ -127,9 +127,10 @@ class ItemBorrowing extends Model
 
     public function getDaysOverdueAttribute(): int
     {
-        if (!$this->isOverdue()) {
+        if (! $this->isOverdue()) {
             return 0;
         }
+
         return $this->expected_return_date->diffInDays(now());
     }
 
@@ -138,6 +139,7 @@ class ItemBorrowing extends Model
         if ($this->status !== 'dipinjam') {
             return 0;
         }
+
         return now()->diffInDays($this->expected_return_date, false);
     }
 

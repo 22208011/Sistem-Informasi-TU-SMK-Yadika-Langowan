@@ -68,7 +68,7 @@ class EligibleScore extends Model
             $this->semester_4_score,
             $this->semester_5_score,
             $this->semester_6_score,
-        ], fn($score) => $score !== null);
+        ], fn ($score) => $score !== null);
 
         if (count($scores) === 0) {
             return 0;
@@ -82,7 +82,7 @@ class EligibleScore extends Model
         // Rumus nilai eligible: 60% nilai rapor + 40% nilai ujian
         // Atau bisa disesuaikan sesuai kebijakan sekolah
         $finalScore = $this->final_score ?? $this->calculateFinalScore();
-        
+
         // Untuk simplicity, eligible = final score
         // Bisa dimodifikasi untuk menambahkan bobot ujian dll
         return round($finalScore, 2);

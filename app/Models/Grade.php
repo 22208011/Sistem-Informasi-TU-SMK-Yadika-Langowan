@@ -35,6 +35,7 @@ class Grade extends Model
      * Semester Constants
      */
     public const SEMESTER_GANJIL = 1;
+
     public const SEMESTER_GENAP = 2;
 
     public const SEMESTERS = [
@@ -46,11 +47,17 @@ class Grade extends Model
      * Grade Type Constants
      */
     public const TYPE_DAILY = 'daily';           // Nilai Harian
+
     public const TYPE_ASSIGNMENT = 'assignment';  // Tugas
+
     public const TYPE_QUIZ = 'quiz';             // Kuis
+
     public const TYPE_MIDTERM = 'midterm';       // PTS (Penilaian Tengah Semester)
+
     public const TYPE_FINAL = 'final';           // PAS/UAS (Penilaian Akhir Semester)
+
     public const TYPE_PRACTICAL = 'practical';    // Nilai Praktik
+
     public const TYPE_PROJECT = 'project';        // Nilai Proyek
 
     public const TYPES = [
@@ -128,6 +135,7 @@ class Grade extends Model
         if ($activeYear) {
             return $query->where('academic_year_id', $activeYear->id);
         }
+
         return $query;
     }
 
@@ -136,10 +144,19 @@ class Grade extends Model
      */
     public function getLetterGradeAttribute(): string
     {
-        if ($this->score >= 90) return 'A';
-        if ($this->score >= 80) return 'B';
-        if ($this->score >= 70) return 'C';
-        if ($this->score >= 60) return 'D';
+        if ($this->score >= 90) {
+            return 'A';
+        }
+        if ($this->score >= 80) {
+            return 'B';
+        }
+        if ($this->score >= 70) {
+            return 'C';
+        }
+        if ($this->score >= 60) {
+            return 'D';
+        }
+
         return 'E';
     }
 
@@ -148,10 +165,19 @@ class Grade extends Model
      */
     public function getPredicateAttribute(): string
     {
-        if ($this->score >= 90) return 'Sangat Baik';
-        if ($this->score >= 80) return 'Baik';
-        if ($this->score >= 70) return 'Cukup';
-        if ($this->score >= 60) return 'Kurang';
+        if ($this->score >= 90) {
+            return 'Sangat Baik';
+        }
+        if ($this->score >= 80) {
+            return 'Baik';
+        }
+        if ($this->score >= 70) {
+            return 'Cukup';
+        }
+        if ($this->score >= 60) {
+            return 'Kurang';
+        }
+
         return 'Sangat Kurang';
     }
 }

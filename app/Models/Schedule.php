@@ -38,11 +38,17 @@ class Schedule extends Model
      * Day of Week Constants (0 = Sunday, 1 = Monday, etc.)
      */
     public const DAY_SUNDAY = 0;
+
     public const DAY_MONDAY = 1;
+
     public const DAY_TUESDAY = 2;
+
     public const DAY_WEDNESDAY = 3;
+
     public const DAY_THURSDAY = 4;
+
     public const DAY_FRIDAY = 5;
+
     public const DAY_SATURDAY = 6;
 
     public const DAYS = [
@@ -149,6 +155,6 @@ class Schedule extends Model
      */
     public function getTimeRangeAttribute(): string
     {
-        return $this->start_time->format('H:i') . ' - ' . $this->end_time->format('H:i');
+        return $this->start_time->format('H:i').' - '.$this->end_time->format('H:i');
     }
 }

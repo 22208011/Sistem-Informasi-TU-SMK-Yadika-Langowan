@@ -16,15 +16,15 @@ return new class extends Migration
             $table->decimal('semester_4_score', 5, 2)->nullable()->after('semester_3_score');
             $table->decimal('semester_5_score', 5, 2)->nullable()->after('semester_4_score');
             $table->decimal('semester_6_score', 5, 2)->nullable()->after('semester_5_score');
-            
+
             // Add calculated scores
             $table->decimal('final_score', 5, 2)->nullable()->after('semester_6_score');
             $table->decimal('eligible_score', 5, 2)->nullable()->after('final_score');
             $table->string('grade', 2)->nullable()->after('eligible_score');
-            
+
             // Add is_final flag
             $table->boolean('is_final')->default(false)->after('grade');
-            
+
             // Add notes column
             $table->text('notes')->nullable()->after('is_final');
         });

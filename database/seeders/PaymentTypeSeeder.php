@@ -72,6 +72,6 @@ class PaymentTypeSeeder extends Seeder
             PaymentType::updateOrCreate(['code' => $type['code']], $type);
         }
 
-        $this->command->info('PaymentType seeder completed: ' . count($types) . ' types created.');
+        $this->command->info('PaymentType seeder completed: '.count($types).' types created.');
     }
 }

@@ -41,31 +41,47 @@ class Letter extends Model
      * ADMINISTRASI KESISWAAN
      */
     public const TYPE_SUMMONS = 'summons';                   // Surat Panggilan Orang Tua
+
     public const TYPE_WARNING = 'warning';                   // Surat Peringatan
+
     public const TYPE_TRANSFER = 'transfer';                 // Surat Pindah
+
     public const TYPE_GRADUATION = 'graduation';             // Surat Keterangan Lulus
+
     public const TYPE_ACTIVE_STUDENT = 'active_student';     // Surat Keterangan Siswa Aktif
+
     public const TYPE_GOOD_BEHAVIOR = 'good_behavior';       // Surat Keterangan Kelakuan Baik (SKKB)
+
     public const TYPE_PIP = 'pip';                           // Surat Usulan PIP/Beasiswa
+
     public const TYPE_INTERNSHIP = 'internship';             // Surat Pengantar Prakerin/PKL
+
     public const TYPE_ALUMNI = 'alumni';                     // Surat Keterangan Alumni
 
     /**
      * ADMINISTRASI KEPEGAWAIAN
      */
     public const TYPE_RECOMMENDATION = 'recommendation';      // Surat Rekomendasi
+
     public const TYPE_ASSIGNMENT = 'assignment';              // Surat Tugas
+
     public const TYPE_PERMIT = 'permit';                      // Surat Izin
+
     public const TYPE_TRAVEL_ORDER = 'travel_order';          // SPPD (Surat Perintah Perjalanan Dinas)
+
     public const TYPE_LEAVE = 'leave';                        // Surat Cuti Pegawai
+
     public const TYPE_DECREE = 'decree';                      // SK Kepala Sekolah
 
     /**
      * PERSURATAN UMUM
      */
     public const TYPE_CIRCULAR = 'circular';                  // Surat Edaran
+
     public const TYPE_NOTIFICATION = 'notification';          // Surat Pemberitahuan
+
     public const TYPE_INVITATION = 'invitation';              // Surat Undangan
+
     public const TYPE_OTHER = 'other';                        // Lainnya
 
     public const TYPES = [
@@ -129,9 +145,13 @@ class Letter extends Model
      * Status Constants
      */
     public const STATUS_DRAFT = 'draft';
+
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_APPROVED = 'approved';
+
     public const STATUS_REJECTED = 'rejected';
+
     public const STATUS_SENT = 'sent';
 
     public const STATUSES = [
@@ -154,8 +174,11 @@ class Letter extends Model
      * Recipient Type Constants
      */
     public const RECIPIENT_STUDENT = 'student';
+
     public const RECIPIENT_GUARDIAN = 'guardian';
+
     public const RECIPIENT_EMPLOYEE = 'employee';
+
     public const RECIPIENT_EXTERNAL = 'external';
 
     public const RECIPIENT_TYPES = [
@@ -288,9 +311,9 @@ class Letter extends Model
         $year = now()->year;
         $month = str_pad(now()->month, 2, '0', STR_PAD_LEFT);
         $count = static::whereYear('created_at', $year)
-                       ->whereMonth('created_at', now()->month)
-                       ->where('letter_type', $type)
-                       ->count() + 1;
+            ->whereMonth('created_at', now()->month)
+            ->where('letter_type', $type)
+            ->count() + 1;
 
         return sprintf('%s/%s/%s/%04d', $prefix, $month, $year, $count);
     }

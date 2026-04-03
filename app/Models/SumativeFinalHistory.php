@@ -28,7 +28,7 @@ class SumativeFinalHistory extends Model
 
     public function getActionNameAttribute(): string
     {
-        return match($this->action) {
+        return match ($this->action) {
             'created' => 'Dibuat',
             'submitted' => 'Diajukan',
             'verified' => 'Diverifikasi',

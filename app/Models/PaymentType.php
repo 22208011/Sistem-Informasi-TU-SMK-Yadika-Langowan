@@ -39,6 +39,6 @@ class PaymentType extends Model
 
     public function getFormattedAmountAttribute(): string
     {
-        return 'Rp ' . number_format($this->default_amount, 0, ',', '.');
+        return 'Rp '.number_format($this->default_amount, 0, ',', '.');
     }
 }

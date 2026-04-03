@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
 
 class Announcement extends Model
 {
@@ -41,9 +41,13 @@ class Announcement extends Model
      * Announcement Type Constants
      */
     public const TYPE_GENERAL = 'general';
+
     public const TYPE_ACADEMIC = 'academic';
+
     public const TYPE_EVENT = 'event';
+
     public const TYPE_URGENT = 'urgent';
+
     public const TYPE_HOLIDAY = 'holiday';
 
     public const TYPES = [
@@ -66,7 +70,9 @@ class Announcement extends Model
      * Priority Constants
      */
     public const PRIORITY_LOW = 'low';
+
     public const PRIORITY_NORMAL = 'normal';
+
     public const PRIORITY_HIGH = 'high';
 
     public const PRIORITIES = [
@@ -79,11 +85,17 @@ class Announcement extends Model
      * Target Audience Constants
      */
     public const AUDIENCE_ALL = 'all';
+
     public const AUDIENCE_STUDENTS = 'students';
+
     public const AUDIENCE_TEACHERS = 'teachers';
+
     public const AUDIENCE_PARENTS = 'parents';
+
     public const AUDIENCE_STAFF = 'staff';
+
     public const AUDIENCE_SPECIFIC_CLASS = 'specific_class';
+
     public const AUDIENCE_SPECIFIC_DEPARTMENT = 'specific_department';
 
     public const AUDIENCES = [
@@ -133,14 +145,14 @@ class Announcement extends Model
      */
     public function scopePublished($query)
     {
-                return $query->where(function ($q) {
-                                                $q->whereNull('published_at')
-                                                    ->orWhere('published_at', '<=', now());
-                                         })
-                                         ->where(function ($q) {
-                         $q->whereNull('expires_at')
-                           ->orWhere('expires_at', '>', now());
-                     });
+        return $query->where(function ($q) {
+            $q->whereNull('published_at')
+                ->orWhere('published_at', '<=', now());
+        })
+            ->where(function ($q) {
+                $q->whereNull('expires_at')
+                    ->orWhere('expires_at', '>', now());
+            });
     }
 
     /**
@@ -158,7 +170,7 @@ class Announcement extends Model
     {
         return $query->where(function ($q) use ($audience) {
             $q->where('target_audience', self::AUDIENCE_ALL)
-              ->orWhere('target_audience', $audience);
+                ->orWhere('target_audience', $audience);
         });
     }
 
@@ -218,7 +230,7 @@ class Announcement extends Model
      */
     public function isPublished(): bool
     {
-        if (!$this->is_active) {
+        if (! $this->is_active) {
             return false;
         }
 

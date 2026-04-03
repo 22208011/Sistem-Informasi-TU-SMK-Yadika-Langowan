@@ -48,8 +48,11 @@ class Employee extends Model
      * Employee Status Constants
      */
     public const STATUS_PNS = 'pns';
+
     public const STATUS_PPPK = 'pppk';
+
     public const STATUS_HONORER = 'honorer';
+
     public const STATUS_KONTRAK = 'kontrak';
 
     public const STATUSES = [
@@ -63,6 +66,7 @@ class Employee extends Model
      * Employee Type Constants
      */
     public const TYPE_GURU = 'guru';
+
     public const TYPE_TENDIK = 'tendik';
 
     public const TYPES = [
@@ -74,6 +78,7 @@ class Employee extends Model
      * Gender Constants
      */
     public const GENDER_MALE = 'L';
+
     public const GENDER_FEMALE = 'P';
 
     public const GENDERS = [
@@ -169,8 +174,9 @@ class Employee extends Model
     public function getPhotoUrlAttribute(): ?string
     {
         if ($this->photo) {
-            return asset('storage/' . $this->photo);
+            return asset('storage/'.$this->photo);
         }
+
         return null;
     }
 
@@ -185,6 +191,7 @@ class Employee extends Model
         } elseif ($this->nuptk) {
             $identity .= " (NUPTK: {$this->nuptk})";
         }
+
         return $identity;
     }
 
@@ -196,6 +203,7 @@ class Employee extends Model
         if ($this->date_of_birth) {
             return $this->date_of_birth->age;
         }
+
         return null;
     }
 }

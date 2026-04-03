@@ -45,10 +45,15 @@ class Exam extends Model
      * Exam Type Constants
      */
     public const TYPE_DAILY = 'daily';           // Ulangan Harian
+
     public const TYPE_MIDTERM = 'midterm';       // PTS
+
     public const TYPE_FINAL = 'final';           // PAS/UAS
+
     public const TYPE_SCHOOL = 'school';         // Ujian Sekolah
+
     public const TYPE_PRACTICAL = 'practical';    // Ujian Praktik
+
     public const TYPE_NATIONAL = 'national';      // UN/ANBK
 
     public const TYPES = [
@@ -64,9 +69,13 @@ class Exam extends Model
      * Status Constants
      */
     public const STATUS_DRAFT = 'draft';
+
     public const STATUS_SCHEDULED = 'scheduled';
+
     public const STATUS_ONGOING = 'ongoing';
+
     public const STATUS_COMPLETED = 'completed';
+
     public const STATUS_GRADED = 'graded';
 
     public const STATUSES = [
@@ -147,8 +156,8 @@ class Exam extends Model
     public function scopeUpcoming($query)
     {
         return $query->where('exam_date', '>=', now()->toDateString())
-                     ->where('status', self::STATUS_SCHEDULED)
-                     ->orderBy('exam_date');
+            ->where('status', self::STATUS_SCHEDULED)
+            ->orderBy('exam_date');
     }
 
     /**

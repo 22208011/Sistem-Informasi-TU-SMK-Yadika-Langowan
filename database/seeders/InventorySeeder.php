@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\ItemCategory;
 use App\Models\InventoryItem;
+use App\Models\ItemCategory;
 use Illuminate\Database\Seeder;
 
 class InventorySeeder extends Seeder
@@ -192,6 +192,6 @@ class InventorySeeder extends Seeder
             );
         }
 
-        $this->command->info('Inventory seeder completed: ' . count($categories) . ' categories, ' . count($items) . ' items created.');
+        $this->command->info('Inventory seeder completed: '.count($categories).' categories, '.count($items).' items created.');
     }
 }

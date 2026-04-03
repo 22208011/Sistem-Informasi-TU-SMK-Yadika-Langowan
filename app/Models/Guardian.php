@@ -40,7 +40,9 @@ class Guardian extends Model
      * Relationship Constants
      */
     public const RELATIONSHIP_AYAH = 'ayah';
+
     public const RELATIONSHIP_IBU = 'ibu';
+
     public const RELATIONSHIP_WALI = 'wali';
 
     public const RELATIONSHIPS = [
@@ -108,6 +110,7 @@ class Guardian extends Model
     public function getFullNameAttribute(): string
     {
         $relationship = self::RELATIONSHIPS[$this->relationship] ?? $this->relationship;
+
         return "{$this->name} ({$relationship})";
     }
 }

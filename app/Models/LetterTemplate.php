@@ -12,6 +12,6 @@ class LetterTemplate extends Model
         'category',
         'file_path',
         'original_filename',
-        'file_extension'
+        'file_extension',
     ];
 }

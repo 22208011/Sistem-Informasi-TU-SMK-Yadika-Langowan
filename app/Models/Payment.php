@@ -137,22 +137,22 @@ class Payment extends Model
 
     public function getFormattedAmountAttribute(): string
     {
-        return 'Rp ' . number_format($this->amount, 0, ',', '.');
+        return 'Rp '.number_format($this->amount, 0, ',', '.');
     }
 
     public function getFormattedTotalAttribute(): string
     {
-        return 'Rp ' . number_format($this->total_amount, 0, ',', '.');
+        return 'Rp '.number_format($this->total_amount, 0, ',', '.');
     }
 
     public function getFormattedPaidAttribute(): string
     {
-        return 'Rp ' . number_format($this->paid_amount, 0, ',', '.');
+        return 'Rp '.number_format($this->paid_amount, 0, ',', '.');
     }
 
     public function getFormattedRemainingAttribute(): string
     {
-        return 'Rp ' . number_format($this->remaining_amount, 0, ',', '.');
+        return 'Rp '.number_format($this->remaining_amount, 0, ',', '.');
     }
 
     public function isOverdue(): bool
@@ -181,6 +181,7 @@ class Payment extends Model
         $prefix = 'INV';
         $date = now()->format('Ymd');
         $last = static::whereDate('created_at', today())->count() + 1;
-        return $prefix . $date . str_pad($last, 4, '0', STR_PAD_LEFT);
+
+        return $prefix.$date.str_pad($last, 4, '0', STR_PAD_LEFT);
     }
 }

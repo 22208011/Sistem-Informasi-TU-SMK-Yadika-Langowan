@@ -21,25 +21,39 @@ class Permission extends Model
      * Module constants
      */
     public const MODULE_USERS = 'users';
+
     public const MODULE_ROLES = 'roles';
+
     public const MODULE_MASTER = 'master';
+
     public const MODULE_STUDENTS = 'students';
+
     public const MODULE_EMPLOYEES = 'employees';
+
     public const MODULE_ATTENDANCE = 'attendance';
+
     public const MODULE_LETTERS = 'letters';
+
     public const MODULE_INVENTORY = 'inventory';
+
     public const MODULE_FINANCE = 'finance';
+
     public const MODULE_REPORTS = 'reports';
 
     // Academic modules
     public const MODULE_ACADEMIC = 'academic';
+
     public const MODULE_GRADES = 'grades';
+
     public const MODULE_EXAMS = 'exams';
+
     public const MODULE_SUBJECTS = 'subjects';
+
     public const MODULE_SCHEDULE = 'schedule';
 
     // Communication modules
     public const MODULE_ANNOUNCEMENTS = 'announcements';
+
     public const MODULE_NOTIFICATIONS = 'notifications';
 
     // Parent portal modules

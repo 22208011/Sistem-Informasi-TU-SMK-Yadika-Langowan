@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,8 +11,17 @@ return new class extends Migration
      */
     private function indexExists(string $table, string $indexName): bool
     {
-        $indexes = DB::select("SHOW INDEX FROM {$table} WHERE Key_name = ?", [$indexName]);
-        return count($indexes) > 0;
+        if (! Schema::hasTable($table)) {
+            return false;
+        }
+
+        foreach (Schema::getIndexes($table) as $index) {
+            if (isset($index['name']) && strcasecmp((string) $index['name'], $indexName) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -21,6 +29,10 @@ return new class extends Migration
      */
     private function safeAddIndex(string $table, array $columns, string $indexName): void
     {
+        if (! Schema::hasTable($table)) {
+            return;
+        }
+
         // Check if index already exists
         if ($this->indexExists($table, $indexName)) {
             return;
@@ -29,7 +41,7 @@ return new class extends Migration
         // Check if all columns exist
         $existingColumns = Schema::getColumnListing($table);
         foreach ($columns as $column) {
-            if (!in_array($column, $existingColumns)) {
+            if (! in_array($column, $existingColumns, true)) {
                 return; // Skip if any column doesn't exist
             }
         }
@@ -50,7 +62,7 @@ return new class extends Migration
         $this->safeAddIndex('students', ['status', 'classroom_id'], 'students_status_classroom_index');
         $this->safeAddIndex('students', ['department_id', 'entry_year'], 'students_department_entry_index');
 
-        // Employees table indexes  
+        // Employees table indexes
         $this->safeAddIndex('employees', ['employee_type', 'is_active'], 'employees_type_status_index');
 
         // Student attendances indexes

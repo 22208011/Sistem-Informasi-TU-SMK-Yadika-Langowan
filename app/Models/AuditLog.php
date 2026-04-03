@@ -62,7 +62,7 @@ class AuditLog extends Model
         array $newValues = []
     ): self {
         $user = Auth::user();
-        
+
         return self::create([
             'user_id' => $user?->id,
             'user_name' => $user?->name ?? 'System',
@@ -91,7 +91,7 @@ class AuditLog extends Model
 
     public function scopeByModel($query, string $modelClass)
     {
-        return $query->where('model_type', 'like', '%' . $modelClass . '%');
+        return $query->where('model_type', 'like', '%'.$modelClass.'%');
     }
 
     public function scopeByDateRange($query, $startDate, $endDate)
@@ -111,13 +111,13 @@ class AuditLog extends Model
 
     public function getModelNameAttribute(): string
     {
-        if (!$this->model_type) {
+        if (! $this->model_type) {
             return '-';
         }
 
         $className = class_basename($this->model_type);
-        
-        return match($className) {
+
+        return match ($className) {
             'Student' => 'Siswa',
             'Employee' => 'Pegawai',
             'User' => 'Pengguna',
@@ -151,7 +151,7 @@ class AuditLog extends Model
         $new = $this->new_values ?? [];
 
         foreach ($new as $key => $value) {
-            if (!isset($old[$key]) || $old[$key] !== $value) {
+            if (! isset($old[$key]) || $old[$key] !== $value) {
                 $changed[] = $key;
             }
         }

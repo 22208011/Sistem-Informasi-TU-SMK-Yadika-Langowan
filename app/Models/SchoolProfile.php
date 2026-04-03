@@ -85,8 +85,9 @@ class SchoolProfile extends Model
     public function getLogoUrlAttribute(): ?string
     {
         if ($this->logo) {
-            return asset('storage/' . $this->logo);
+            return asset('storage/'.$this->logo);
         }
+
         return null;
     }
 
@@ -98,6 +99,7 @@ class SchoolProfile extends Model
         if ($this->latitude && $this->longitude) {
             return "https://www.google.com/maps?q={$this->latitude},{$this->longitude}";
         }
+
         return $this->maps_url;
     }
 
@@ -109,10 +111,12 @@ class SchoolProfile extends Model
         if ($this->whatsapp_1) {
             $phone = preg_replace('/[^0-9]/', '', $this->whatsapp_1);
             if (str_starts_with($phone, '0')) {
-                $phone = '62' . substr($phone, 1);
+                $phone = '62'.substr($phone, 1);
             }
+
             return "https://wa.me/{$phone}";
         }
+
         return null;
     }
 
@@ -124,10 +128,12 @@ class SchoolProfile extends Model
         if ($this->whatsapp_2) {
             $phone = preg_replace('/[^0-9]/', '', $this->whatsapp_2);
             if (str_starts_with($phone, '0')) {
-                $phone = '62' . substr($phone, 1);
+                $phone = '62'.substr($phone, 1);
             }
+
             return "https://wa.me/{$phone}";
         }
+
         return null;
     }
 
@@ -139,8 +145,10 @@ class SchoolProfile extends Model
         if ($this->operational_start && $this->operational_end) {
             $start = $this->operational_start->format('H:i');
             $end = $this->operational_end->format('H:i');
+
             return "{$start} - {$end} {$this->timezone}";
         }
+
         return null;
     }
 
@@ -151,8 +159,10 @@ class SchoolProfile extends Model
     {
         if ($this->instagram) {
             $handle = ltrim($this->instagram, '@');
+
             return "https://instagram.com/{$handle}";
         }
+
         return null;
     }
 
@@ -165,8 +175,10 @@ class SchoolProfile extends Model
             if (str_contains($this->facebook, 'facebook.com')) {
                 return $this->facebook;
             }
+
             return "https://facebook.com/{$this->facebook}";
         }
+
         return null;
     }
 }

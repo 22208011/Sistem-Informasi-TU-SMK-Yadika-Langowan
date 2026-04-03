@@ -16,11 +16,11 @@ Route::middleware(['auth', 'verified'])->prefix('finance')->group(function () {
     Route::livewire('/reports', 'pages::finance.reports')
         ->middleware('permission:finance.view')
         ->name('finance.reports');
-        
+
     Route::get('/reports/export/pdf', [\App\Http\Controllers\FinanceExportController::class, 'exportPdf'])
         ->middleware('permission:finance.view')
         ->name('finance.reports.export.pdf');
-        
+
     Route::get('/reports/export/excel', [\App\Http\Controllers\FinanceExportController::class, 'exportExcel'])
         ->middleware('permission:finance.view')
         ->name('finance.reports.export.excel');

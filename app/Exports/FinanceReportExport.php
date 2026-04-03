@@ -2,9 +2,9 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\FinanceExportController;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use App\Http\Controllers\FinanceExportController;
 
 class FinanceReportExport implements WithMultipleSheets
 {
@@ -19,7 +19,7 @@ class FinanceReportExport implements WithMultipleSheets
 
     public function sheets(): array
     {
-        $controller = new FinanceExportController();
+        $controller = new FinanceExportController;
         $data = $controller->getReportData($this->filters);
 
         $sheets = [];

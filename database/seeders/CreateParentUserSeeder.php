@@ -16,9 +16,10 @@ class CreateParentUserSeeder extends Seeder
     public function run(): void
     {
         $role = Role::where('name', 'orang_tua')->first();
-        
-        if (!$role) {
+
+        if (! $role) {
             $this->command->error('Role orang_tua not found!');
+
             return;
         }
 
@@ -34,12 +35,12 @@ class CreateParentUserSeeder extends Seeder
 
         // Link guardian records to this user
         $guardian = Guardian::first();
-        if ($guardian && !$guardian->user_id) {
+        if ($guardian && ! $guardian->user_id) {
             $guardian->user_id = $user->id;
             $guardian->save();
-            $this->command->info('Linked guardian "' . $guardian->name . '" to user');
+            $this->command->info('Linked guardian "'.$guardian->name.'" to user');
         }
 
-        $this->command->info('Parent user created/found: ' . $user->email);
+        $this->command->info('Parent user created/found: '.$user->email);
     }
 }

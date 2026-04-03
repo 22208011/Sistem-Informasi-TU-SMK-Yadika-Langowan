@@ -3,14 +3,14 @@
 namespace App\Exports\Sheets;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class FinanceStudentSheet implements FromCollection, WithTitle, WithHeadings, WithMapping, WithStyles, WithColumnWidths
+class FinanceStudentSheet implements FromCollection, WithColumnWidths, WithHeadings, WithMapping, WithStyles, WithTitle
 {
     private $data;
 
@@ -41,7 +41,7 @@ class FinanceStudentSheet implements FromCollection, WithTitle, WithHeadings, Wi
     {
         return [
             ['LAPORAN KEUANGAN PER SISWA'],
-            ['NIS', 'NAMA SISWA', 'KELAS', 'JML TAGIHAN', 'TOTAL TAGIHAN (Rp)', 'TOTAL TERBAYAR (Rp)', 'SISA TAGIHAN (Rp)']
+            ['NIS', 'NAMA SISWA', 'KELAS', 'JML TAGIHAN', 'TOTAL TAGIHAN (Rp)', 'TOTAL TERBAYAR (Rp)', 'SISA TAGIHAN (Rp)'],
         ];
     }
 
@@ -57,7 +57,7 @@ class FinanceStudentSheet implements FromCollection, WithTitle, WithHeadings, Wi
             2 => ['font' => ['bold' => true]],
         ];
     }
-    
+
     public function columnWidths(): array
     {
         return [

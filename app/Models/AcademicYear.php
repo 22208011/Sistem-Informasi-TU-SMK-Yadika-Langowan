@@ -30,6 +30,7 @@ class AcademicYear extends Model
      * Semester constants
      */
     public const SEMESTER_GANJIL = 'ganjil';
+
     public const SEMESTER_GENAP = 'genap';
 
     /**
@@ -65,6 +66,6 @@ class AcademicYear extends Model
      */
     public function getDisplayNameAttribute(): string
     {
-        return $this->name . ' - Semester ' . ucfirst($this->semester);
+        return $this->name.' - Semester '.ucfirst($this->semester);
     }
 }

@@ -18,8 +18,6 @@ Route::middleware(['auth', 'verified'])->prefix('academic')->group(function () {
         ->middleware('permission:schedule.view,schedule.view_own')
         ->name('academic.schedules');
 
-
-
     // Announcements
     Route::livewire('/announcements', 'pages::academic.announcements')
         ->middleware(['permission:announcements.view', 'role:admin,kepala_sekolah,guru'])
@@ -29,7 +27,6 @@ Route::middleware(['auth', 'verified'])->prefix('academic')->group(function () {
     Route::livewire('/extracurriculars', 'pages::academic.extracurriculars')
         ->middleware('permission:extracurriculars.view')
         ->name('academic.extracurriculars');
-
 
 });
 

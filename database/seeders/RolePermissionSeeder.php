@@ -311,7 +311,7 @@ class RolePermissionSeeder extends Seeder
      * - Input data sumatif akhir (PAS/UAS)
      * - Input ujian sekolah
      * - Melihat jadwal mengajar
-    * - Membuat dan mengirim surat panggilan orang tua siswa
+     * - Membuat dan mengirim surat panggilan orang tua siswa
      * - Laporan pembelajaran
      * - Melihat data siswa di kelas mereka
      */

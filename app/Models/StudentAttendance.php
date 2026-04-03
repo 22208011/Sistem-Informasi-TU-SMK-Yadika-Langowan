@@ -30,8 +30,11 @@ class StudentAttendance extends Model
      * Attendance Status Constants
      */
     public const STATUS_HADIR = 'hadir';
+
     public const STATUS_IZIN = 'izin';
+
     public const STATUS_SAKIT = 'sakit';
+
     public const STATUS_ALPHA = 'alpha';
 
     public const STATUSES = [

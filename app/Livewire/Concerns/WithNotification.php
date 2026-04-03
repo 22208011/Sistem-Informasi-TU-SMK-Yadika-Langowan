@@ -5,6 +5,7 @@ namespace App\Livewire\Concerns;
 trait WithNotification
 {
     public string $notificationMessage = '';
+
     public string $notificationType = '';
 
     public function showNotification(string $type, string $message): void

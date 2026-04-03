@@ -44,9 +44,13 @@ class Student extends Model
      * Status Constants
      */
     public const STATUS_AKTIF = 'aktif';
+
     public const STATUS_LULUS = 'lulus';
+
     public const STATUS_PINDAH = 'pindah';
+
     public const STATUS_KELUAR = 'keluar';
+
     public const STATUS_DO = 'do';
 
     public const STATUSES = [
@@ -69,6 +73,7 @@ class Student extends Model
      * Gender Constants
      */
     public const GENDER_MALE = 'L';
+
     public const GENDER_FEMALE = 'P';
 
     public const GENDERS = [
@@ -195,8 +200,9 @@ class Student extends Model
     public function getPhotoUrlAttribute(): ?string
     {
         if ($this->photo) {
-            return asset('storage/' . $this->photo);
+            return asset('storage/'.$this->photo);
         }
+
         return null;
     }
 
@@ -208,6 +214,7 @@ class Student extends Model
         if ($this->date_of_birth) {
             return $this->date_of_birth->age;
         }
+
         return null;
     }
 

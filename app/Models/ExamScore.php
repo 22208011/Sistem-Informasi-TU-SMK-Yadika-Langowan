@@ -58,6 +58,7 @@ class ExamScore extends Model
         if ($this->exam->max_score == 0) {
             return 0;
         }
+
         return ($this->score / $this->exam->max_score) * 100;
     }
 }

@@ -41,10 +41,15 @@ class StudentMutation extends Model
      * Mutation Type Constants
      */
     public const TYPE_MASUK = 'masuk';
+
     public const TYPE_KELUAR = 'keluar';
+
     public const TYPE_PINDAH_KELAS = 'pindah_kelas';
+
     public const TYPE_NAIK_KELAS = 'naik_kelas';
+
     public const TYPE_LULUS = 'lulus';
+
     public const TYPE_DO = 'do';
 
     public const TYPES = [
@@ -69,7 +74,9 @@ class StudentMutation extends Model
      * Status Constants
      */
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_APPROVED = 'approved';
+
     public const STATUS_REJECTED = 'rejected';
 
     public const STATUSES = [
@@ -88,6 +95,7 @@ class StudentMutation extends Model
      * Entry Type for new students
      */
     public const ENTRY_TYPE_NEW = 'baru';
+
     public const ENTRY_TYPE_TRANSFER = 'pindahan';
 
     public const ENTRY_TYPES = [

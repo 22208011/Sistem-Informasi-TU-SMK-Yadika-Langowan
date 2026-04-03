@@ -36,8 +36,11 @@ class Subject extends Model
      * Grade Level Constants
      */
     public const GRADE_ALL = 'all';
+
     public const GRADE_X = 'X';
+
     public const GRADE_XI = 'XI';
+
     public const GRADE_XII = 'XII';
 
     public const GRADE_LEVELS = [
@@ -51,7 +54,9 @@ class Subject extends Model
      * Subject Type Constants
      */
     public const TYPE_GENERAL = 'general';
+
     public const TYPE_VOCATIONAL = 'vocational';
+
     public const TYPE_LOCAL = 'local';
 
     public const TYPES = [
@@ -117,7 +122,7 @@ class Subject extends Model
     {
         return $query->where(function ($q) use ($grade) {
             $q->where('grade_level', $grade)
-              ->orWhere('grade_level', self::GRADE_ALL);
+                ->orWhere('grade_level', self::GRADE_ALL);
         });
     }
 

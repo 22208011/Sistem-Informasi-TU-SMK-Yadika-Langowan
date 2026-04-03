@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\MailConfiguration;
+
 return [
 
     /*
@@ -14,7 +16,12 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => MailConfiguration::defaultMailer(
+        env('MAIL_MAILER', 'log'),
+        env('MAIL_HOST', '127.0.0.1'),
+        (int) env('MAIL_PORT', 2525),
+        env('APP_ENV', 'local'),
+    ),
 
     /*
     |--------------------------------------------------------------------------

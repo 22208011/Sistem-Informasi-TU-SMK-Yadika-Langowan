@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Pages\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,7 +12,7 @@ Route::livewire('test-livewire', 'test-livewire')
     ->middleware(['auth', 'verified'])
     ->name('test.livewire');
 
-Route::livewire('dashboard', 'pages::dashboard')
+Route::livewire('dashboard', Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

@@ -1,0 +1,126 @@
+name: deploy-cpanel-ftp
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-cpanel-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PHP_VERSION: "8.3"
+  NODE_VERSION: "22"
+
+jobs:
+  deploy:
+    name: Build & Deploy to cPanel
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Configure Flux composer credentials
+        run: |
+          if [ -n "${{ secrets.FLUX_USERNAME }}" ] && [ -n "${{ secrets.FLUX_LICENSE_KEY }}" ]; then
+            composer config http-basic.composer.fluxui.dev "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
+          else
+            echo "Skipping Flux credentials configuration"
+          fi
+
+      - name: Install PHP dependencies (production)
+        run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      - name: Install Node dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Build vendor archive
+        run: |
+          rm -f vendor.zip vendor.zip.sha256
+          zip -qry vendor.zip vendor
+          sha256sum vendor.zip > vendor.zip.sha256
+
+      - name: Prepare public deployment directory
+        run: |
+          mkdir -p deploy-temp/public-files
+          rsync -av --delete --exclude='index.php' --exclude='.htaccess' public/ deploy-temp/public-files/
+
+      - name: Deploy app files to cPanel private directory
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          timeout: 120000
+          log-level: minimal
+          server-dir: ${{ secrets.FTP_APP_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .vscode/**
+            node_modules/**
+            tests/**
+            vendor/**
+            public/**
+            deploy-temp/**
+            storage/logs/**
+            storage/framework/cache/**
+            storage/framework/sessions/**
+            storage/framework/views/**
+            bootstrap/cache/*.php
+            .env
+            .env.*
+
+      - name: Deploy public files to cPanel public directory
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          timeout: 120000
+          log-level: minimal
+          local-dir: deploy-temp/public-files/
+          server-dir: ${{ secrets.FTP_PUBLIC_DIR }}
+
+      - name: Deployment summary
+        run: |
+          {
+            echo "## Deployment completed";
+            echo "";
+            echo "- Commit: ${{ github.sha }}";
+            echo "- Branch: ${{ github.ref_name }}";
+            echo "- Actor: ${{ github.actor }}";
+            echo "";
+            echo "### Manual server steps after FTP upload";
+            echo "1. Extract vendor archive on server: \\`unzip -o vendor.zip -d .\\`";
+            echo "2. Ensure storage and bootstrap/cache are writable";
+            echo "3. Run Laravel optimizations on server: \\`php artisan optimize\\`";
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,1 @@
+<img src="{{ asset('/images/logo.jfif') }}" alt="Logo YADIKA" class="w-10 object-contain" />

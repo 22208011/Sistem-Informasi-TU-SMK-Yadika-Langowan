@@ -1,0 +1,2 @@
+﻿    <!-- Livewire Scripts -->
+<script src="http://tata-usaha-sekolah.test/livewire-26be09d5/livewire.js?id=a9012fca"   data-csrf="" data-module-url="http://tata-usaha-sekolah.test/livewire-26be09d5" data-update-uri="http://tata-usaha-sekolah.test/livewire-26be09d5/update" data-navigate-once="true"></script>

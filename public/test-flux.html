@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flux Disclosure Test</title>
+    <style>
+        body { padding: 40px; background: #1a1a2e; color: white; font-family: sans-serif; }
+        .test-box { background: #16213e; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        h1 { margin-bottom: 30px; }
+        .panel { background: #0f3460; padding: 15px; margin-top: 10px; border-radius: 4px; }
+        button { cursor: pointer; }
+        .hidden { display: none; }
+        [data-open] .hidden { display: block !important; }
+    </style>
+</head>
+<body>
+    <h1>Test Flux Disclosure - Debug Mode</h1>
+    
+    <div class="test-box">
+        <h3>Test 1: Basic ui-disclosure</h3>
+        <ui-disclosure class="group/disclosure">
+            <button type="button" style="background:#3b82f6;color:white;padding:10px 20px;border:none;border-radius:4px;">
+                Klik untuk expand/collapse
+            </button>
+            <div class="panel hidden">
+                <p>Ini konten yang seharusnya muncul ketika di-klik!</p>
+                <ul>
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                </ul>
+            </div>
+        </ui-disclosure>
+    </div>
+
+    <div class="test-box">
+        <h3>Debug Info:</h3>
+        <pre id="debug" style="background:#000;padding:10px;border-radius:4px;font-size:12px;overflow:auto;max-height:400px;"></pre>
+    </div>
+
+    <script>
+        const debug = document.getElementById('debug');
+        function log(msg) {
+            debug.textContent += msg + '\n';
+            console.log(msg);
+        }
+
+        // Catch all errors
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            log('ERROR: ' + msg);
+            log('  URL: ' + url);
+            log('  Line: ' + lineNo + ', Col: ' + columnNo);
+            return false;
+        };
+
+        log('=== Flux Disclosure Debug ===');
+        log('Time: ' + new Date().toISOString());
+        log('');
+        log('Before loading Flux:');
+        log('  customElements defined: ' + (typeof customElements !== 'undefined'));
+        log('  ui-disclosure: ' + (customElements.get('ui-disclosure') ? 'DEFINED' : 'NOT DEFINED'));
+    </script>
+    
+    <!-- Load Flux -->
+    <script src="/flux-direct.js" onerror="log('ERROR: Failed to load flux-direct.js')"></script>
+    
+    <script>
+        log('');
+        log('After Flux script loaded:');
+        log('  ui-disclosure: ' + (customElements.get('ui-disclosure') ? 'DEFINED ✓' : 'NOT DEFINED ✗'));
+        log('  ui-dropdown: ' + (customElements.get('ui-dropdown') ? 'DEFINED ✓' : 'NOT DEFINED ✗'));
+        log('  ui-tooltip: ' + (customElements.get('ui-tooltip') ? 'DEFINED ✓' : 'NOT DEFINED ✗'));
+        log('  ui-field: ' + (customElements.get('ui-field') ? 'DEFINED ✓' : 'NOT DEFINED ✗'));
+        log('');
+
+        // Check elements
+        const disclosures = document.querySelectorAll('ui-disclosure');
+        log('Found ' + disclosures.length + ' ui-disclosure element(s)');
+        
+        disclosures.forEach((el, i) => {
+            log('');
+            log('Disclosure #' + i + ':');
+            log('  - button: ' + (el.querySelector('button') ? 'found' : 'NOT FOUND'));
+            log('  - lastElementChild: ' + el.lastElementChild?.tagName);
+            log('  - _controllable: ' + (el._controllable !== undefined));
+            
+            // Manual click handler for debugging
+            const btn = el.querySelector('button');
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    setTimeout(() => {
+                        log('Click detected! data-open=' + el.hasAttribute('data-open'));
+                    }, 50);
+                });
+            }
+        });
+
+        // Check after delay
+        setTimeout(() => {
+            log('');
+            log('--- After 2 seconds ---');
+            log('ui-disclosure: ' + (customElements.get('ui-disclosure') ? 'DEFINED ✓' : 'NOT DEFINED ✗'));
+            if (disclosures[0]) {
+                log('_controllable: ' + (disclosures[0]._controllable !== undefined));
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

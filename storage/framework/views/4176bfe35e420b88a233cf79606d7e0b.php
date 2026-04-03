@@ -1,0 +1,1 @@
+<img src="<?php echo e(asset('/images/logo.jfif')); ?>" alt="Logo YADIKA" class="w-10 object-contain" /><?php /**PATH C:\laragon\www\tata-usaha-sekolah\resources\views/components/app-logo-icon.blade.php ENDPATH**/ ?>

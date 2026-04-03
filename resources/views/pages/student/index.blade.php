@@ -131,13 +131,8 @@ new #[Layout('layouts.app')] #[Title('Data Siswa')] class extends Component {
         </x-stat-card>
     </div>
 
-    <!-- Template Surat Widget -->
-    <div class="animate-fade-in-up delay-300">
-        <livewire:letters.template-widget category="siswa" title="Format Surat Siswa" description="Akses cepat untuk mendownload atau mengunggah format dokumen khusus kesiswaan." />
-    </div>
-
     <!-- Data Table Card -->
-    <x-elegant-card :noPadding="true" class="animate-fade-in-up delay-400">
+    <x-elegant-card :noPadding="true" class="animate-fade-in-up delay-300">
         <x-slot:header>
             <div class="flex flex-col lg:flex-row gap-4 w-full">
                 <div class="relative flex-1 max-w-sm">

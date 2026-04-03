@@ -5,14 +5,15 @@
 
 @php
     $schoolProfile = \App\Models\SchoolProfile::getProfile();
+    $logoUrl = $schoolProfile?->logo_url ?? asset('images/logo.jfif');
 @endphp
 
 <div class="flex w-full flex-col items-center gap-6 text-center">
     <a href="{{ route('home') }}" class="group flex flex-col items-center gap-3 font-medium transition-all duration-300" wire:navigate>
-        @if($schoolProfile?->logo_url)
+        @if($logoUrl)
             <div class="relative">
                 <div class="absolute inset-0 bg-linear-to-r from-blue-600 to-indigo-600 rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                <img src="{{ $schoolProfile->logo_url }}" alt="{{ $schoolProfile->name }}" class="relative h-20 w-auto transform transition-transform duration-300 group-hover:scale-105" />
+                <img src="{{ $logoUrl }}" alt="{{ $schoolProfile?->name }}" class="relative h-20 w-auto transform transition-transform duration-300 group-hover:scale-105" />
             </div>
         @else
             <div class="relative">

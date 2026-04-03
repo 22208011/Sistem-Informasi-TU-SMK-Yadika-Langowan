@@ -80,15 +80,18 @@ class SchoolProfile extends Model
     }
 
     /**
-     * Get logo URL
+     * Get logo URL with fallback to static logo
      */
     public function getLogoUrlAttribute(): ?string
     {
         if ($this->logo) {
-            return asset('storage/'.$this->logo);
+            $storagePath = 'storage/'.$this->logo;
+            if (file_exists(public_path($storagePath))) {
+                return asset($storagePath);
+            }
         }
 
-        return null;
+        return asset('images/logo.jfif');
     }
 
     /**

@@ -1,1 +1,0 @@
-<img src="<?php echo e(asset('/images/logo.jfif')); ?>" alt="Logo YADIKA" class="w-10 object-contain" /><?php /**PATH D:\Hizkia Reppi\Developer\Fullstack Development\Sistem-Informasi-TU-SMK-Yadika-Langowan\resources\views/components/app-logo-icon.blade.php ENDPATH**/ ?>

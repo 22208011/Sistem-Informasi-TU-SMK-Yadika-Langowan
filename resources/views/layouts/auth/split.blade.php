@@ -1,5 +1,6 @@
 @php
     $schoolProfile = \App\Models\SchoolProfile::getProfile();
+    $brandLogo = $schoolProfile?->logo_url ?? asset('images/logo-yadika.png');
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -11,13 +12,7 @@
             <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
                 <div class="absolute inset-0 bg-neutral-900"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center gap-3 text-lg font-medium" wire:navigate>
-                    @if($schoolProfile?->logo_url)
-                        <img src="{{ $schoolProfile->logo_url }}" alt="{{ $schoolProfile->name }}" class="h-10 w-auto" />
-                    @else
-                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-700">
-                            <flux:icon.academic-cap class="size-6 text-white" />
-                        </span>
-                    @endif
+                    <img src="{{ $brandLogo }}" alt="{{ $schoolProfile?->name ?? 'Logo SMK Yadika Langowan' }}" class="h-10 w-auto object-contain" />
                     {{ $schoolProfile?->name ?? config('app.name', 'Laravel') }}
                 </a>
 

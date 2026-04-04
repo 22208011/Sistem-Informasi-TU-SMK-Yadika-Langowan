@@ -1,9 +1,32 @@
+@php
+    $appUrl = rtrim((string) config('app.url', url('/')), '/');
+    $appName = (string) config('app.name');
+    $metaTitle = $title ?? $appName;
+    $metaDescription = 'Sistem Informasi Tata Usaha untuk SMK Yadika Langowan.';
+    $logoMetaUrl = $appUrl.'/images/logo-yadika.png';
+@endphp
+
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta name="theme-color" content="#6366f1" />
+<meta name="description" content="{{ $metaDescription }}" />
 
-<title>{{ $title ?? config('app.name') }}</title>
+<title>{{ $metaTitle }}</title>
+
+<link rel="canonical" href="{{ $appUrl }}" />
+
+<meta property="og:site_name" content="{{ $appName }}" />
+<meta property="og:title" content="{{ $metaTitle }}" />
+<meta property="og:description" content="{{ $metaDescription }}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ $appUrl }}" />
+<meta property="og:image" content="{{ $logoMetaUrl }}" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ $metaTitle }}" />
+<meta name="twitter:description" content="{{ $metaDescription }}" />
+<meta name="twitter:image" content="{{ $logoMetaUrl }}" />
 
 {{-- Prevent FOUC for dark mode --}}
 <script>
@@ -26,9 +49,9 @@
 <noscript><link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" /></noscript>
 
 {{-- Favicons --}}
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="{{ $logoMetaUrl }}" type="image/png" sizes="32x32">
+<link rel="icon" href="{{ $logoMetaUrl }}" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="{{ $logoMetaUrl }}">
 
 {{-- Performance hints --}}
 <meta http-equiv="x-dns-prefetch-control" content="on">

@@ -1,13 +1,32 @@
 @php
     $schoolProfile = \App\Models\SchoolProfile::getProfile();
+    $brandLogo = $schoolProfile?->logo_url ?? asset('images/logo-yadika.png');
+    $appUrl = rtrim((string) config('app.url', url('/')), '/');
+    $metaTitle = ($schoolProfile?->name ?? config('app.name')).' - Sistem Informasi Tata Usaha';
+    $metaDescription = 'Sistem Informasi Tata Usaha untuk SMK Yadika Langowan.';
+    $logoMetaUrl = $appUrl.'/images/logo-yadika.png';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $schoolProfile?->name ?? config('app.name') }} - Sistem Informasi Tata Usaha</title>
-    <link rel="icon" href="/favicon.ico" sizes="any">
+    <title>{{ $metaTitle }}</title>
+    <meta name="description" content="{{ $metaDescription }}">
+    <link rel="canonical" href="{{ $appUrl }}">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $appUrl }}">
+    <meta property="og:image" content="{{ $logoMetaUrl }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $metaTitle }}">
+    <meta name="twitter:description" content="{{ $metaDescription }}">
+    <meta name="twitter:image" content="{{ $logoMetaUrl }}">
+    <link rel="icon" href="{{ $logoMetaUrl }}" type="image/png" sizes="32x32">
+    <link rel="icon" href="{{ $logoMetaUrl }}" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ $logoMetaUrl }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -25,22 +44,13 @@
     <nav class="relative z-10 px-6 py-4 lg:px-12">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-4">
-                @if($schoolProfile?->logo_url)
-                    <img src="{{ $schoolProfile->logo_url }}" alt="{{ $schoolProfile->name }}" class="h-14 w-auto" />
-                @else
-                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-red-600 to-indigo-600 shadow-lg">
-                        <svg class="size-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                        </svg>
-                    </div>
-                @endif
+                <img src="{{ $brandLogo }}" alt="{{ $schoolProfile?->name ?? 'Logo SMK Yadika Langowan' }}" class="h-14 w-auto object-contain" />
                 <div>
                     <h1 class="text-lg font-bold text-zinc-800 dark:text-white">{{ $schoolProfile?->name ?? config('app.name') }}</h1>
                     <p class="text-sm text-zinc-500 dark:text-zinc-400">Sistem Informasi Tata Usaha</p>
                 </div>
             </div>
-            
+
             @if (Route::has('login'))
                 <div class="flex items-center gap-3">
                     @auth
@@ -78,16 +88,16 @@
                         <span class="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
                         Sistem Terintegrasi & Modern
                     </div>
-                    
+
                     <h1 class="text-4xl lg:text-6xl font-extrabold text-zinc-900 dark:text-white leading-tight">
-                        Kelola Administrasi Sekolah dengan 
+                        Kelola Administrasi Sekolah dengan
                         <span class="bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Mudah & Efisien</span>
                     </h1>
-                    
+
                     <p class="text-lg lg:text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed">
                         Sistem informasi tata usaha yang lengkap untuk mengelola data siswa, pegawai, inventaris, keuangan, dan administrasi sekolah dalam satu platform terintegrasi.
                     </p>
-                    
+
                     <div class="flex flex-wrap gap-4">
                         @auth
                             <a href="{{ url('/dashboard') }}" class="group inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-linear-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-500/30 hover:scale-105 transition-all duration-300">
@@ -280,7 +290,7 @@
             <!-- Background with gradient overlay -->
             <div class="absolute inset-0 bg-linear-to-br from-slate-900 via-blue-950 to-indigo-950"></div>
             <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.03%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
-            
+
             <div class="relative max-w-7xl mx-auto px-6 lg:px-12 py-20">
                 <!-- Header -->
                 <div class="text-center mb-16">
@@ -301,13 +311,13 @@
                     @if($schoolProfile?->latitude && $schoolProfile?->longitude)
                     <div class="lg:col-span-1">
                         <div class="rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20 hover:ring-cyan-400/50 transition-all duration-300">
-                            <iframe 
+                            <iframe
                                 src="https://maps.google.com/maps?q={{ $schoolProfile->latitude }},{{ $schoolProfile->longitude }}&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                width="100%" 
-                                height="300" 
-                                style="border:0;" 
-                                allowfullscreen="" 
-                                loading="lazy" 
+                                width="100%"
+                                height="300"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
                                 class="w-full"
                             ></iframe>
@@ -403,7 +413,7 @@
                                     <p class="text-green-300 text-sm">Hubungi untuk info pendaftaran</p>
                                 </div>
                             </div>
-                            
+
                             <div class="space-y-3">
                                 @if($schoolProfile?->whatsapp_1)
                                 <a href="{{ $schoolProfile->whatsapp_1_url }}" target="_blank" class="flex items-center gap-4 p-4 bg-linear-to-r from-green-500/20 to-emerald-500/10 hover:from-green-500/30 hover:to-emerald-500/20 border border-green-400/30 hover:border-green-400/50 rounded-xl transition-all hover:scale-[1.02] group">
@@ -421,7 +431,7 @@
                                     </div>
                                 </a>
                                 @endif
-                                
+
                                 @if($schoolProfile?->whatsapp_2)
                                 <a href="{{ $schoolProfile->whatsapp_2_url }}" target="_blank" class="flex items-center gap-4 p-4 bg-linear-to-r from-green-500/20 to-emerald-500/10 hover:from-green-500/30 hover:to-emerald-500/20 border border-green-400/30 hover:border-green-400/50 rounded-xl transition-all hover:scale-[1.02] group">
                                     <div class="w-12 h-12 rounded-full bg-linear-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-emerald-500/30">
@@ -451,7 +461,7 @@
                                 </span>
                                 Ikuti Media Sosial Kami
                             </h3>
-                            
+
                             <div class="grid grid-cols-2 gap-3">
                                 @if($schoolProfile?->facebook)
                                 <a href="{{ $schoolProfile->facebook_url }}" target="_blank" class="flex items-center gap-3 p-4 bg-linear-to-r from-blue-600/30 to-blue-500/20 hover:from-blue-600/50 hover:to-blue-500/30 border border-blue-400/30 hover:border-blue-400/50 rounded-xl transition-all group">
@@ -461,7 +471,7 @@
                                     <span class="text-sm text-blue-200 font-medium group-hover:text-white transition-colors">Facebook</span>
                                 </a>
                                 @endif
-                                
+
                                 @if($schoolProfile?->instagram)
                                 <a href="{{ $schoolProfile->instagram_url }}" target="_blank" class="flex items-center gap-3 p-4 bg-linear-to-r from-pink-600/30 to-purple-500/20 hover:from-pink-600/50 hover:to-purple-500/30 border border-pink-400/30 hover:border-pink-400/50 rounded-xl transition-all group">
                                     <svg class="size-7 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
@@ -470,7 +480,7 @@
                                     <span class="text-sm text-pink-200 font-medium group-hover:text-white transition-colors">Instagram</span>
                                 </a>
                                 @endif
-                                
+
                                 @if($schoolProfile?->youtube)
                                 <a href="{{ $schoolProfile->youtube }}" target="_blank" class="flex items-center gap-3 p-4 bg-linear-to-r from-red-600/30 to-rose-500/20 hover:from-red-600/50 hover:to-rose-500/30 border border-red-400/30 hover:border-red-400/50 rounded-xl transition-all group">
                                     <svg class="size-7 text-red-400" fill="currentColor" viewBox="0 0 24 24">
@@ -479,7 +489,7 @@
                                     <span class="text-sm text-red-200 font-medium group-hover:text-white transition-colors">YouTube</span>
                                 </a>
                                 @endif
-                                
+
                                 @if($schoolProfile?->tiktok)
                                 <a href="{{ $schoolProfile->tiktok }}" target="_blank" class="flex items-center gap-3 p-4 bg-linear-to-r from-slate-600/30 to-zinc-500/20 hover:from-slate-600/50 hover:to-zinc-500/30 border border-slate-400/30 hover:border-slate-400/50 rounded-xl transition-all group">
                                     <svg class="size-7 text-slate-300" fill="currentColor" viewBox="0 0 24 24">
@@ -489,12 +499,13 @@
                                 </a>
                                 @endif
                             </div>
-                            
+
                             @if($schoolProfile?->instagram)
                             <div class="mt-5 p-3 rounded-xl bg-linear-to-r from-pink-500/10 to-purple-500/10 border border-pink-400/20 text-center">
-                                <p class="text-pink-200 text-sm">
-                                    Follow: <span class="text-pink-300 font-bold">@{{ $schoolProfile->instagram }}</span>
-                                </p>
+                                @php $instagramHandle = ltrim((string) $schoolProfile->instagram, '@'); @endphp
+                                <a href="{{ $schoolProfile->instagram_url }}" target="_blank" rel="noopener noreferrer" class="text-pink-200 text-sm hover:text-white transition-colors">
+                                    Follow: <span class="text-pink-300 font-bold">{{ '@'.$instagramHandle }}</span>
+                                </a>
                             </div>
                             @endif
                         </div>
@@ -508,15 +519,7 @@
             <div class="max-w-7xl mx-auto px-6 lg:px-12">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
-                        @if($schoolProfile?->logo_url)
-                            <img src="{{ $schoolProfile->logo_url }}" alt="{{ $schoolProfile->name }}" class="h-8 w-auto" />
-                        @else
-                            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/30">
-                                <svg class="size-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                                </svg>
-                            </div>
-                        @endif
+                        <img src="{{ $brandLogo }}" alt="{{ $schoolProfile?->name ?? 'Logo SMK Yadika Langowan' }}" class="h-8 w-auto object-contain" />
                         <span class="text-sm text-blue-200">
                             © {{ date('Y') }} <span class="font-semibold text-white">{{ $schoolProfile?->name ?? config('app.name') }}</span>
                         </span>

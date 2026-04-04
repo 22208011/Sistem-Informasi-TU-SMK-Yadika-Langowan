@@ -1,1 +1,1 @@
-<img src="{{ asset('/images/logo.jfif') }}" alt="Logo YADIKA" class="w-10 object-contain" />
+<img src="{{ asset('/images/logo-yadika.png') }}" alt="Logo YADIKA" {{ $attributes->merge(['class' => 'h-10 w-auto object-contain']) }} />

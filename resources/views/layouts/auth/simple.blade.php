@@ -1,5 +1,6 @@
 @php
     $schoolProfile = \App\Models\SchoolProfile::getProfile();
+    $brandLogo = $schoolProfile?->logo_url ?? asset('images/logo-yadika.png');
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -24,7 +25,7 @@
                         {{ $slot }}
                     </div>
                 </div>
-                
+
                 <!-- Footer -->
                 <div class="mt-6 text-center">
                     <p class="text-sm text-zinc-500 dark:text-zinc-400">
@@ -33,7 +34,7 @@
                 </div>
             </div>
         </div>
-        
+
         {{-- Flux Scripts - using direct file --}}
         <?php app('livewire')->forceAssetInjection(); ?>
         <script src="{{ asset('vendor/flux/flux.js') }}" data-navigate-once></script>

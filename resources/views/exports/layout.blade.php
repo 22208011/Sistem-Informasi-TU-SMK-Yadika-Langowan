@@ -82,8 +82,7 @@
     @php
         $logoYadika = '';
         $pathsYadika = [
-            public_path('images/logo yadika.png'),
-            public_path('images/logo.jfif')
+            public_path('images/logo-yadika.png'),
         ];
         foreach ($pathsYadika as $path) {
             if(file_exists($path)) {
@@ -97,13 +96,10 @@
         $logoTutwuri = '';
         $pathsTutwuri = [
             public_path('images/tutwuri handayani.png'),
-            public_path('images/logo yadikaa.png'),
-            public_path('images/logo yadikaa.jpg'),
             public_path('images/tutwuri.png'),
             public_path('images/tut wuri.png')
         ];
         foreach ($pathsTutwuri as $path) {
-            // Prevent taking the same file if both variables try to grab 'logo yadikaa'
             if(file_exists($path)) {
                 $ext = pathinfo($path, PATHINFO_EXTENSION);
                 $mime = ($ext === 'jpg' || $ext === 'jpeg') ? 'jpeg' : 'png';

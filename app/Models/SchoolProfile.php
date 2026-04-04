@@ -91,7 +91,7 @@ class SchoolProfile extends Model
             }
         }
 
-        return asset('images/logo.jfif');
+        return asset('images/logo-yadika.png');
     }
 
     /**
@@ -161,6 +161,12 @@ class SchoolProfile extends Model
     public function getInstagramUrlAttribute(): ?string
     {
         if ($this->instagram) {
+            if (str_contains($this->instagram, 'instagram.com')) {
+                return str_starts_with($this->instagram, 'http')
+                    ? $this->instagram
+                    : 'https://'.$this->instagram;
+            }
+
             $handle = ltrim($this->instagram, '@');
 
             return "https://instagram.com/{$handle}";
